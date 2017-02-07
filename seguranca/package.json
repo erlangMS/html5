@@ -1,0 +1,14 @@
+{
+  "name": "seguranca",
+  "version": "1.0.11",
+  "description": "sistema de segurança para aplicações angular2",
+  "main": "seguranca.js",
+  "typings": "seguranca.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Renato Carauta Ribeiro",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
+}
