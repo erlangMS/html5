@@ -1,0 +1,62 @@
+[
+	{
+		"name": "/seguranca/node_modules",
+		"comment": "Bibliotecas node_modules do portal",
+		"owner": "seguranca",
+		"version": "1.0.0",
+		"service" : "ems_static_file_service:execute",
+		"url": "/seguranca/node_modules/",
+		"use_re" : true,
+		"path" : "{{ seguranca_api_management }}",
+		"type": "GET",
+		"cache_control" : "max-age=86400, public",
+		"expires_minute" : 1440,
+		"lang" : "erlang"
+	},
+
+	{
+		"name": "/seguranca/images",
+		"comment": "image static files of seguranca",
+		"owner": "seguranca",
+		"version": "1.0.0",
+		"service" : "ems_static_file_service:execute",
+		"url": "/seguranca/app/.*/img/",
+		"use_re" : true,
+		"path" : "{{ seguranca_api_management }}",
+		"type": "GET",
+		"cache_control" : "max-age=3600, public",
+		"expires_minute" : 60,
+		"lang" : "erlang"
+	},
+
+
+	{
+		"name": "redirect_url_seguranca",
+		"comment": "Redirect url /seguranca to /seguranca/index.html",
+		"owner": "seguranca",
+		"version": "1.0.0",
+		"service" : "ems_redirect_url_service:execute",
+		"url": "/seguranca",
+		"redirect_url" : "/seguranca/index.html",
+		"path" : "{{ seguranca_api_management }}",
+		"type": "GET",
+		"cache_control" : "no-cache",
+		"expires_minute" : 0,
+		"lang" : "erlang"
+	},
+
+	{
+		"name": "/seguranca",
+		"comment": "Sistema de Seguranca ErlangMS",
+		"owner": "seguranca",
+		"version": "1.0.0",
+		"service" : "ems_static_file_service:execute",
+		"url": "/seguranca/",
+		"use_re" : true,
+		"path" : "{{ seguranca_api_management }}",
+		"type": "GET",
+		"cache_control" : "no-cache",
+		"expires_minute" : 0,
+		"lang" : "erlang"
+	}
+]
