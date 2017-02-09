@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.loading = true;
 
-        this.authenticationService.login("http://164.41.121.71:2301/authorize?grant_type=password&username="+this.model.username+"&password="+this.model.password,'')
+        this.authenticationService.login("http://127.0.0.1:2301/authorize?grant_type=password&username="+this.model.username+"&password="+this.model.password,'')
           .subscribe(result => {
             if (result === true) {
               this.authenticationService.getSitemap().subscribe(resp=>{
