@@ -1,21 +1,32 @@
-import { Routes, RouterModule } from '@angular/router';
-import {HomeRoutes} from "./home/home.routes";
-import {FormRoute} from "./form/form.routes";
-import {PessoaRoute} from "./pessoa/pessoa.routes";
-import {ErroRoute} from "./erro/erro.routes";
-import {QuestaoRoute} from "./questao/questao.routes";
+import { Routes ,RouterModule } from '@angular/router';
 import { ModuleWithProviders} from '@angular/core';
 
+export const routes: Routes = [
+  {
+    "path":  "home",
+    "loadChildren" : "app/home/home.module#HomeModule"
+  },
+  {
+    "path":"form",
+    "loadChildren": "app/form/form.module#FormModule"
+  },
+  {
+    "path":"pessoa",
+    "loadChildren": "app/pessoa/pessoa.module#PessoaModule"
+  },
+  {
+    "path":"questao",
+    "loadChildren": "app/questao/questao.module#QuestaoModule"
+  },
+  {
+    "path":"erro",
+    "loadChildren": "app/erro/erro.module#ErroModule"
+  },
+  {
+    "path": "" ,
+    "redirectTo": "home",
+    "pathMatch": "full"
+  }
 
-const appRoutes: Routes = [
-  ...HomeRoutes,
-  ...FormRoute,
-  ...PessoaRoute,
-  ...ErroRoute,
-  ...QuestaoRoute
 ];
-
-export const appRoutingProviders: any[] = [
-];
-
-export const routing = RouterModule.forRoot(appRoutes);
+export const routing: ModuleWithProviders  = RouterModule.forRoot(routes);

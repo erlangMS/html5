@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes ,RouterModule } from '@angular/router';
+import {FormComponent} from "./form.component";
 import {AuthGuard} from "../_guards/auth.guard";
-import {QuestaoComponent} from "./questao.component";
-import {QuestaoService} from "./questao.service";
 
-const routes: Routes = [{ path: '', component: QuestaoComponent, canActivate: [AuthGuard]}];
+const routes: Routes = [{ path: '', component: FormComponent, canActivate: [AuthGuard]}];
 
 @NgModule({
   imports: [
@@ -13,12 +12,11 @@ const routes: Routes = [{ path: '', component: QuestaoComponent, canActivate: [A
     RouterModule.forChild(routes)
   ],
   declarations: [
-    QuestaoComponent
+    FormComponent
   ],
   providers: [
-    QuestaoService
   ]
 })
-export class QuestaoModule {
+export class FormModule {
 }
 

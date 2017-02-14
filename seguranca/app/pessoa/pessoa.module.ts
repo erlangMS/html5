@@ -1,15 +1,27 @@
-export class Pessoa {
-  constructor( ){ }
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Routes ,RouterModule } from '@angular/router';
+import {AuthGuard} from "../_guards/auth.guard";
+import {PessoaComponent} from "./pessoa.component";
+import {ListaComponent} from "./lista/lista.component";
+import {PessoaService} from "./pessoa.service";
 
-  public nome: string;
-  public id: number;
+const routes: Routes = [{ path: '', component: PessoaComponent, canActivate: [AuthGuard]},
+                        {parh: 'pessoa/lista', component: ListaComponent, canActivate: [AuthGuard]}];
 
-
-  fromJSON(json:Pessoa) {
-    for (var propName in json)
-      this[propName] = json[propName];
-    return this;
-  }
-
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes)
+  ],
+  declarations: [
+    PessoaComponent,
+    ListaComponent
+  ],
+  providers: [
+    PessoaService
+  ]
+})
+export class PessoaModule {
 }
 
