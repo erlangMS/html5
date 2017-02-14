@@ -1,5 +1,5 @@
 {
-  "name": "arquitetura-basica",
+  "name": "seguranca",
   "version": "1.0.1",
   "description": "Arquitetura básica de segunraça",
   "main": "index.js",
@@ -52,7 +52,7 @@
     "protractor": "~4.0.13",
     "rimraf": "^2.5.4",
     "@types/node": "^6.0.46",
-    "@types/jasmine": "^2.5.36",
+    "@types/jasmine": "2.5.38",
     "@types/selenium-webdriver": "^2.53.33"
   },
   "repository": {},
