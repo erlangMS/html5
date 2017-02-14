@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {AuthenticationService} from "../_services/authentication.service";
-import {NavigationComponent} from "../navigation/navigation.component";
 
 
 @Component({
@@ -14,8 +13,6 @@ export class LoginComponent implements OnInit {
   private model: any = {};
   private loading = false;
   private error: string = '';
-
-
 
 
   constructor(

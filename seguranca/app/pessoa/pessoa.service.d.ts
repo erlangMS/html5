@@ -1,4 +1,4 @@
-import { Pessoa } from "./pessoa.module";
+import { Pessoa } from "./pessoa";
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";

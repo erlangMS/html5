@@ -5,14 +5,16 @@ import {AuthGuard} from "../_guards/auth.guard";
 import {PessoaComponent} from "./pessoa.component";
 import {ListaComponent} from "./lista/lista.component";
 import {PessoaService} from "./pessoa.service";
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [{ path: '', component: PessoaComponent, canActivate: [AuthGuard]},
-                        {parh: 'pessoa/lista', component: ListaComponent, canActivate: [AuthGuard]}];
+                        {path: 'pessoa/lista', component: ListaComponent, canActivate: [AuthGuard]}];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule
   ],
   declarations: [
     PessoaComponent,

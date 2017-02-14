@@ -4,13 +4,17 @@
     <div class="form-group">
       <label>Login: </label>
       <input type="text" class="form-control"
-             required [(ngModel)]="model.username" id="login"
-             name="login" placeholder="Digite seu login"/>
+             required [(ngModel)]="model.username" id="username"
+             name="username"
+             #username="ngModel"
+             placeholder="Digite seu login"/>
       <br/>
       <label>Senha: </label>
       <input type="password" class="form-control"
-             required [(ngModel)]="model.password" id="senha"
-             name="senha" placeholder="Digite sua senha"/>
+             required [(ngModel)]="model.password" id="password"
+             name="password"
+             #password="ngModel"
+             placeholder="Digite sua senha"/>
       <br/><br/>
       <div [hidden]="error == ''"
            class="alert alert-danger">

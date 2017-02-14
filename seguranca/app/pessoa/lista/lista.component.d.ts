@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { Pessoa } from "../pessoa.module";
+import { Pessoa } from "../pessoa";
 import { PessoaService } from "../pessoa.service";
 import { Router } from "@angular/router";
 export declare class ListaComponent implements OnInit {

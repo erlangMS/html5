@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {Pessoa} from "../pessoa.module";
+import {Pessoa} from "../pessoa";
 import {PessoaService} from "../pessoa.service";
 import { Router } from "@angular/router";
 

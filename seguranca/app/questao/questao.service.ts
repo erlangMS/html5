@@ -3,7 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable'
 import { Router } from "@angular/router";
 import {DefaultHeaders} from "../_headers/default.headers";
-import {Questao} from "./questao.module";
+import {Questao} from "./questao";
 
 @Injectable()
 export class QuestaoService extends DefaultHeaders{

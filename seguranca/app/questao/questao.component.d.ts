@@ -1,9 +1,9 @@
 import { OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { Questao } from "./questao.module";
+import { Questao } from "./questao";
 import { QuestaoService } from "./questao.service";
 import { PessoaService } from "../pessoa/pessoa.service";
-import { Pessoa } from "../pessoa/pessoa.module";
+import { Pessoa } from "../pessoa/pessoa";
 export declare class QuestaoComponent implements OnInit {
     private questaoService;
     private pessoaService;
