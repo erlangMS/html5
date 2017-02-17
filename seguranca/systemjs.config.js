@@ -24,7 +24,8 @@
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
       // other libraries
-      'rxjs':                      'npm:rxjs'
+      'rxjs':                      'npm:rxjs',
+      'angular2-cookie':            'npm:angular2-cookie'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -33,10 +34,13 @@
         defaultExtension: 'js'
       },
       rxjs: {
-		main: 'Rx.js',  
+		    main: 'Rx.js',
+        defaultExtension: 'js'
+      },
+      'angular2-cookie': {
+        main: './core.js',
         defaultExtension: 'js'
       }
-
     }
   });
 })(this);

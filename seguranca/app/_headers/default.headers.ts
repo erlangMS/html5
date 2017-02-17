@@ -9,15 +9,16 @@ export class DefaultHeaders extends RequestOptions {
     }
 
     merge(options?: RequestOptionsArgs): RequestOptions {
-        let headers = new Headers({ 'content-type': 'application/json; charset=utf-8' });
+        let headers = new Headers({ 'content-type': 'application/json; charset=utf-8'});
         let usuario = JSON.parse(localStorage.getItem('currentUser'));
         if(usuario) {
-          headers.append('authorization', 'Bearer ' + usuario.access_token)
+           headers.append('authorization', 'Bearer ' + usuario.access_token)
         }
         options.headers = headers;
+        //options.withCredentials = true;
         var result = super.merge(options);
         result.merge = this.merge;
         return result;
       }
-  
+
 }

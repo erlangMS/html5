@@ -3,7 +3,7 @@ import { Http , Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
 import 'rxjs/add/operator/map';
-
+import {CookieService} from "../_cookie/cookie.service";
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class AuthenticationService  {
 
 
 
-  constructor(private http: Http, private route: Router, private options: RequestOptions) {
+  constructor(private http: Http, private route: Router, private options: RequestOptions, private cookieService: CookieService) {
     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
   }
@@ -30,6 +30,8 @@ export class AuthenticationService  {
         let token = response.json() && response.json();
         if (token) {
           this.token = token;
+          this.cookieService.setSecurityCookie(true);
+          this.cookieService.setCookie("currentUser",JSON.stringify(response.json()),3600,"/","localhost");
           localStorage.setItem('currentUser', JSON.stringify(response.json()));
           let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
           this.periodicIncrement(sessionTime.expires_in);

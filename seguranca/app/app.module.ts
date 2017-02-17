@@ -16,6 +16,8 @@ import {PessoaModule} from "./pessoa/pessoa.module";
 import {ErroModule} from "./erro/erro.module";
 import {QuestaoModule} from "./questao/questao.module";
 import {routing} from "./app.routing";
+import {CookieService} from "./_cookie/cookie.service";
+
 
 
 
@@ -36,7 +38,7 @@ import {routing} from "./app.routing";
     QuestaoModule,
     routing
   ],
-  providers: [AuthGuard, AuthenticationService,UserService,
+  providers: [AuthGuard, AuthenticationService,UserService, CookieService,
     {
       provide: XSRFStrategy,
       useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRF-Token')
