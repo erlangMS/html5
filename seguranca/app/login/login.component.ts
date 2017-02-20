@@ -35,14 +35,15 @@ export class LoginComponent implements OnInit {
               let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
               this.authenticationService.periodicIncrement(sessionTime.expires_in);
               this.error = '';
-              this.router.navigate(['/']);
+              window.location.href = "http://" + document.location.host +"/seguranca/";
+
             }
           },
               err  =>  {
                 this.error = 'Usuario e/ou senha inválida';
               }
           );
-
   }
+
 
 }

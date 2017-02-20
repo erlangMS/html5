@@ -17,9 +17,9 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener('window:beforeunload', ['$event'])
+  /*@HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(e:any) {
     localStorage.removeItem('currentUser');
-  }
+  }*/
 
 }

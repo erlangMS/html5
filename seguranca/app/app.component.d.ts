@@ -4,5 +4,4 @@ export declare class AppComponent implements OnInit {
     private authenticationService;
     constructor(authenticationService: AuthenticationService);
     ngOnInit(): void;
-    beforeunloadHandler(e: any): void;
 }
