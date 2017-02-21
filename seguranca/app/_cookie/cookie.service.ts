@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CookieService {
-  private isConsented: boolean = false;
-
-  private secure: string;
 
   constructor() {
 
@@ -37,20 +34,18 @@ export class CookieService {
     document.cookie = name +"="+value+";"+expires;
   }
 
-   setCookie(name: string, value: string, expireMilisecounds: number, path: string = "", domain: string = "") {
+   setCookie(name: string, value: string, expireMilisecounds: number, path: string, domain: string, secure: boolean)  {
     let d:Date = new Date();
     d.setTime(d.getTime() + expireMilisecounds );
-    let expires:string = "expires=" + d.toUTCString();
-    document.cookie =  + expires + ",path=" +path+","+this.secure+",httponly,"+name + "=" + value;
-     console.log("Cookie criardo   "+document.cookie);
-  }
+    let expires:string =  d.toUTCString();
 
-  setSecurityCookie(security: boolean) {
-    if(security) {
-      this.secure = "secure";
-    } else {
-      this.secure = "";
-    }
+     document.cookie = name + "=" +value +
+       ( ( expires ) ? ";expires=" + expires : "" ) +
+       ( ( path ) ? ";path=" + path : "" ) +
+       ( ( domain ) ? ";domain=" + domain : "" ) +
+       ( ( secure ) ? ";secure" : "" );
+
+     console.log("Cookie adicionado:-------------",document.cookie);
   }
 
 }

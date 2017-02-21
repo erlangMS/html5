@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
               this.authenticationService.periodicIncrement(sessionTime.expires_in);
               this.error = '';
               window.location.href = "http://" + document.location.host +"/seguranca/";
-
             }
           },
               err  =>  {

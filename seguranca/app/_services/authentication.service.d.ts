@@ -1,19 +1,16 @@
-import { Http, RequestOptions } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
 import 'rxjs/add/operator/map';
-import { CookieService } from "../_cookie/cookie.service";
 export declare class AuthenticationService {
     private http;
     private route;
-    private options;
-    private cookieService;
     token: string;
     time: number;
     intervalId: any;
     private url;
     private body;
-    constructor(http: Http, route: Router, options: RequestOptions, cookieService: CookieService);
+    constructor(http: Http, route: Router);
     login(url: string, body: string): Observable<boolean>;
     getUrl(login: string, senha: string): Observable<string>;
     periodicIncrement(sessionTime: number): void;
