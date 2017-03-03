@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http , Response, RequestOptions } from '@angular/http';
+import { Http , Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
 import 'rxjs/add/operator/map';
@@ -16,6 +16,8 @@ export class AuthenticationService {
   private url: string;
   private body: string;
 
+  public ip: any;
+
 
   constructor(private http: Http, private route: Router) {
       var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -29,6 +31,7 @@ export class AuthenticationService {
         if (token) {
           this.token = token;
           localStorage.setItem('currentUser', JSON.stringify(response.json()));
+          localStorage.setItem('adressIp',JSON.stringify({ip: this.ip}));
           let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
           this.periodicIncrement(sessionTime.expires_in);
           return true;
@@ -45,6 +48,13 @@ export class AuthenticationService {
         this.url = json.url+''+json.param1+''+login+''+json.param2+''+senha;
         this.body = json.body;
         return this.url;
+      });
+  }
+
+  getIpClient(){
+    return this.http.get('https://jsonip.com?callback=?')
+      .map((res) => {
+        return res;
       });
   }
 

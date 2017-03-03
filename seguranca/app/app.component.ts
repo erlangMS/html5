@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import {Location} from '@angular/common';
 import {AuthenticationService} from "./_services/authentication.service";
 
 @Component({
@@ -7,7 +8,10 @@ import {AuthenticationService} from "./_services/authentication.service";
 })
 export class AppComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService){
+  public location: Location;
+
+  constructor(private authenticationService: AuthenticationService, private loc: Location){
+    this.location = loc;
   }
 
   ngOnInit() {
@@ -15,6 +19,10 @@ export class AppComponent implements OnInit {
       let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
       this.authenticationService.periodicIncrement(sessionTime.expires_in);
     }
+
+    this.authenticationService.getIpClient().subscribe(result => {
+      this.authenticationService.ip = result;
+    });
   }
 
   /*@HostListener('window:beforeunload', ['$event'])

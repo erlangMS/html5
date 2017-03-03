@@ -8,11 +8,9 @@ export class DefaultHeaders extends RequestOptions {
 
     constructor() {
       super();
-      
       let usuario = JSON.parse(localStorage.getItem('currentUser'));
-      if(usuario.access_token) {
+      if(usuario != null) {
         this.setHeaders("authorization", "Bearer "+usuario.access_token);
-        //após remover do localStorage
       }
     }
 
