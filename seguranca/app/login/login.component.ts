@@ -32,8 +32,7 @@ export class LoginComponent implements OnInit {
               this.authenticationService.getSitemap().subscribe(resp=>{
                 console.log('resposta do siteMap');
               });
-              let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
-              this.authenticationService.periodicIncrement(sessionTime.expires_in);
+              this.authenticationService.periodicIncrement(3600);
               this.error = '';
               window.location.href = "http://" + document.location.host +"/seguranca/";
             }

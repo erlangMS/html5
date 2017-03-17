@@ -10,13 +10,12 @@ export class DefaultHeaders extends RequestOptions {
       super();
       let usuario = JSON.parse(localStorage.getItem('currentUser'));
       if(usuario != null) {
-        this.setHeaders("authorization", "Bearer "+usuario.access_token);
+        this.setHeaders("Authorization", "Barer "+usuario.authorization);
       }
     }
 
     merge(options?: RequestOptionsArgs): RequestOptions {
         options.headers = DefaultHeaders.headers;
-        console.log("Cabecalho   " + DefaultHeaders.headers);
         var result = super.merge(options);
         result.merge = this.merge;
         return result;

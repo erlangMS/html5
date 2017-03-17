@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, XSRFStrategy, CookieXSRFStrategy, RequestOptions, Http } from '@angular/http';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -17,7 +19,6 @@ import {ErroModule} from "./erro/erro.module";
 import {QuestaoModule} from "./questao/questao.module";
 import {routing} from "./app.routing";
 import {CookieService} from "./_cookie/cookie.service";
-
 
 
 
@@ -46,6 +47,10 @@ import {CookieService} from "./_cookie/cookie.service";
     {
       provide: RequestOptions,
       useClass: DefaultHeaders
+    },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
     }
   ],
   bootstrap: [AppComponent]

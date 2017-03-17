@@ -8,6 +8,7 @@ export declare class PessoaService {
     pessoa: Pessoa;
     constructor(http: Http, route: Router);
     insert(pessoa: Pessoa): Observable<Pessoa>;
+    findAluno(): Observable<void>;
     find(): Observable<any>;
     redirecionarEditar(pessoa: Pessoa): void;
     update(pessoa: Pessoa): Observable<Pessoa>;

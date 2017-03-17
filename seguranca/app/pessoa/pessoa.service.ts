@@ -21,6 +21,11 @@ export class PessoaService{
       });
   }
 
+  findAluno() {
+    return this.http.get("http://localhost:2301//academico/aluno",[])
+      .map((response:Response) => console.log("Resposta da consulta:  "+response))
+  }
+
   find() {
     return this.http.get('http://localhost:2301/unb_aula/pessoa',{})
       .map((response: Response) => response.json())

@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthenticationService {
 
-  public token: string;
+  public token: any;
 
   public time: number = 0;
   intervalId: any = null;
@@ -27,13 +27,12 @@ export class AuthenticationService {
   login(url:string, body:string): Observable<boolean> {
     return this.http.post(url,body)
       .map((response: Response) => {
-        let token = response.json() && response.json();
+        let token =  response.json();
         if (token) {
           this.token = token;
           localStorage.setItem('currentUser', JSON.stringify(response.json()));
           localStorage.setItem('adressIp',JSON.stringify({ip: this.ip}));
-          let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
-          this.periodicIncrement(sessionTime.expires_in);
+          this.periodicIncrement(3600);
           return true;
         } else {
           return false;
@@ -51,12 +50,13 @@ export class AuthenticationService {
       });
   }
 
+  /*Verificar método para recuperar ip da máquina
   getIpClient(){
-    return this.http.get('https://jsonip.com?callback=?')
+    return this.http.get('')
       .map((res) => {
         return res;
       });
-  }
+  }*/
 
   periodicIncrement(sessionTime:number): void {
     this.cancelPeriodicIncrement();

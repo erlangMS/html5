@@ -45,6 +45,13 @@ export class PessoaComponent implements OnInit {
       })
   }
 
+  findAluno() {
+    this.pessoaService.findAluno()
+      .subscribe(result =>
+        console.log(result)
+      )
+  }
+
   newHero() {
     this.model = new Pessoa();
   }

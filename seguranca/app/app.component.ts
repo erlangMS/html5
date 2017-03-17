@@ -17,12 +17,12 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('currentUser')) {
       let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
-      this.authenticationService.periodicIncrement(sessionTime.expires_in);
+      this.authenticationService.periodicIncrement(3600);
     }
 
-    this.authenticationService.getIpClient().subscribe(result => {
+  /* this.authenticationService.getIpClient().subscribe(result => {
       this.authenticationService.ip = result;
-    });
+    });*/
   }
 
   /*@HostListener('window:beforeunload', ['$event'])

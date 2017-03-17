@@ -11,5 +11,6 @@ export declare class PessoaComponent implements OnInit {
     hidden: boolean;
     onSubmit(): void;
     editar(): void;
+    findAluno(): void;
     newHero(): void;
 }
