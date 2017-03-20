@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   private error: string = '';
 
 
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService) { }

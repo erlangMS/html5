@@ -94,6 +94,7 @@ export class AuthenticationService {
     this.cancelPeriodicIncrement();
     this.token = null;
     localStorage.removeItem('currentUser');
+    localStorage.removeItem("dateAccessPage");
     this.route.navigate(['']);
   }
 

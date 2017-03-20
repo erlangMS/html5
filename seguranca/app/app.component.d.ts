@@ -5,6 +5,8 @@ export declare class AppComponent implements OnInit {
     private authenticationService;
     private loc;
     location: Location;
+    timeSession: number;
+    localDateTime: number;
     constructor(authenticationService: AuthenticationService, loc: Location);
     ngOnInit(): void;
 }

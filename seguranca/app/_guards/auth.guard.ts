@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   canActivate() {
     if (localStorage.getItem('currentUser')) {
       let usuario = JSON.parse(localStorage.getItem('currentUser'));
-      if (usuario){
+      if (usuario.authorization){
         this.authenticationService.periodicIncrement(3600);
         return true;
       } else {

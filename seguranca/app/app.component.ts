@@ -10,6 +10,10 @@ export class AppComponent implements OnInit {
 
   public location: Location;
 
+  public timeSession: number = 3600;
+
+  public localDateTime: number;
+
   constructor(private authenticationService: AuthenticationService, private loc: Location){
     this.location = loc;
   }
@@ -17,17 +21,25 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('currentUser')) {
       let sessionTime = JSON.parse(localStorage.getItem('currentUser'));
-      this.authenticationService.periodicIncrement(3600);
+      this.authenticationService.periodicIncrement(this.timeSession);
+    }
+
+    if(localStorage.getItem("dateAccessPage")){
+      let dateSecoundAccess = Date.now();
+      this.localDateTime = Number(localStorage.getItem("dateAccessPage"));
+      let value = dateSecoundAccess - this.localDateTime;
+      if(value >= (this.timeSession * 1000)){
+        this.authenticationService.logout();
+      }
+
+    }else{
+      this.localDateTime = Date.now();
+      localStorage.setItem("dateAccessPage",this.localDateTime.toString());
     }
 
   /* this.authenticationService.getIpClient().subscribe(result => {
       this.authenticationService.ip = result;
     });*/
   }
-
-  /*@HostListener('window:beforeunload', ['$event'])
-  beforeunloadHandler(e:any) {
-    localStorage.removeItem('currentUser');
-  }*/
 
 }
