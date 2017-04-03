@@ -21,7 +21,6 @@ import {routing} from "./app.routing";
 import {CookieService} from "./_cookie/cookie.service";
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

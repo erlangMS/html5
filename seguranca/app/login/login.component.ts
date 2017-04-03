@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import {AuthenticationService} from "../_services/authentication.service";
+import {AuthenticationService} from '../_services/authentication.service';
+import {EventManagerService, IEventListenr} from "../_register/event.amanger.service";
 
 
 @Component({
@@ -8,40 +9,49 @@ import {AuthenticationService} from "../_services/authentication.service";
   templateUrl: 'app/login/login.component.html',
   styleUrls: ['app/login/login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, IEventListenr {
 
   private model: any = {};
   private loading = false;
   private error: string = '';
 
+  captchaAprovado = false;
 
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private eventManager: EventManagerService) { }
 
   ngOnInit() {
+    this.eventManager.registerEvent('VALIDATE_CAPTCHA',this,(args:any)=>{
+      this.captchaAprovado = true;
+    });
+  }
+
+  ngOnDestroy(){
 
   }
 
   login() {
     this.loading = true;
+      if(this.captchaAprovado) {
+        this.authenticationService.login ("http://127.0.0.1:2301/authorize?grant_type=password&username=" + this.model.username + "&password=" + this.model.password, '')
+          .subscribe (result => {
+              if (result === true) {
+                this.authenticationService.getSitemap ().subscribe (resp=> {
 
-        this.authenticationService.login("http://127.0.0.1:2301/authorize?grant_type=password&username="+this.model.username+"&password="+this.model.password,'')
-          .subscribe(result => {
-            if (result === true) {
-              this.authenticationService.getSitemap().subscribe(resp=>{
-                console.log('resposta do siteMap');
-              });
-              this.authenticationService.periodicIncrement(3600);
-              this.error = '';
-              window.location.href = "http://" + document.location.host +"/seguranca/";
-            }
-          },
-              err  =>  {
-                this.error = 'Usuario e/ou senha inválida';
+                });
+                this.authenticationService.periodicIncrement (3600);
+                this.error = '';
+                window.location.href = "http://" + document.location.host + "/seguranca/";
               }
+            },
+            err => {
+              this.error = 'Usuario e/ou senha inválida';
+            }
           );
+      }
   }
 
 

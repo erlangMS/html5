@@ -2,21 +2,21 @@
   "rules": {
     "class-name": true,
     "comment-format": [
-      true,
+      false,
       "check-space"
     ],
     "curly": true,
     "eofline": true,
     "forin": true,
     "indent": [
-      true,
+      false,
       "spaces"
     ],
     "label-position": true,
     "label-undefined": true,
     "max-line-length": [
       true,
-      140
+      300
     ],
     "member-access": false,
     "member-ordering": [
@@ -71,7 +71,7 @@
       "allow-null-check"
     ],
     "typedef-whitespace": [
-      true,
+      false,
       {
         "call-signature": "nospace",
         "index-signature": "nospace",
@@ -82,12 +82,7 @@
     ],
     "variable-name": false,
     "whitespace": [
-      true,
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-separator",
-      "check-type"
+      false
     ]
   }
 }

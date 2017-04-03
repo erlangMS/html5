@@ -36,10 +36,6 @@ export class AppComponent implements OnInit {
       this.localDateTime = Date.now();
       localStorage.setItem("dateAccessPage",this.localDateTime.toString());
     }
-
-  /* this.authenticationService.getIpClient().subscribe(result => {
-      this.authenticationService.ip = result;
-    });*/
   }
 
 }

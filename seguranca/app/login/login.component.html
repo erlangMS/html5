@@ -1,6 +1,6 @@
 <h4 class="cor-azul">Login</h4>
 <hr/>
-  <form (ngSubmit)="login()" #loginForm="ngForm" >
+  <form (ngSubmit)="login()" #loginForm="ngForm"  id="loginForm">
     <div class="form-group">
       <label>Login: </label>
       <input type="text" class="form-control"
@@ -20,9 +20,13 @@
            class="alert alert-danger">
           {{error}}
       </div>
+      <re-captcha sitekey="6LetChQTAAAAACq4lmSL0L1-4rv47ZPrFKrkWOLf" (tokenChange)="getToken($event);"></re-captcha>
       <br/>
       <div class="alinhar-direita">
          <input  type="submit" name="login" class="login loginmodal-submit btn btn-default" value="Confirmar"/>
       </div>
     </div>
   </form>
+
+
+
