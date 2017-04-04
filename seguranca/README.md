@@ -1,16 +1,22 @@
-# Angular QuickStart Source
+# Módule Seguranca Angular
 [![Build Status][travis-badge]][travis-badge-url]
 
-This repository holds the TypeScript source code of the [angular.io quickstart](https://angular.io/docs/ts/latest/quickstart.html),
-the foundation for most of the documentation samples and potentially a good starting point for your application.
+This module create a security front-end for your application, this module provides:
+  abstraction for create a default headers for all requests.
+  Services for autentication with any tipe of authorization.
+  Session timer for your application.
+  Framework for emit and subscribe.
+  Framework for create a cookie (Beta developer)
+  Include API for recapcha google.
+  Service for protect all your routes if user isn't autenticated.
 
-It's been extended with testing support so you can start writing tests immediately.
-
-**This is not the perfect arrangement for your application. It is not designed for production.
-It exists primarily to get you started quickly with learning and prototyping in Angular**
-
-We are unlikely to accept suggestions about how to grow this QuickStart into something it is not.
-Please keep that in mind before posting issues and PRs.
+In the others versions many other functionalities are include in this securty module like:
+    Auitomatic request for reautenticated user when looged in the same pc
+    Control of IP user
+    Id for register client 
+    Create components for login 
+    Create a component error customizable
+    Crate a dinamically routes based in json.
 
 ## Prerequisites
 
