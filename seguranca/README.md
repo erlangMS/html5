@@ -2,20 +2,33 @@
 [![Build Status][travis-badge]][travis-badge-url]
 
 This module create a security front-end for your application, this module provides:
+  
   abstraction for create a default headers for all requests.
+  
   Services for autentication with any tipe of authorization.
+  
   Session timer for your application.
+  
   Framework for emit and subscribe.
+  
   Framework for create a cookie (Beta developer)
+  
   Include API for recapcha google.
+  
   Service for protect all your routes if user isn't autenticated.
 
 In the others versions many other functionalities are include in this securty module like:
+    
     Auitomatic request for reautenticated user when looged in the same pc
+    
     Control of IP user
+   
     Id for register client 
+    
     Create components for login 
+    
     Create a component error customizable
+    
     Crate a dinamically routes based in json.
 
 ## Prerequisites
