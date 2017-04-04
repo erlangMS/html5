@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit, IEventListenr {
   private model: any = {};
   private loading = false;
   private error: string = '';
+  private contadorLogin = 0;
 
   captchaAprovado = false;
 
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit, IEventListenr {
   ngOnInit() {
     this.eventManager.registerEvent('VALIDATE_CAPTCHA',this,(args:any)=>{
       this.captchaAprovado = true;
+      this.loading = false;
     });
   }
 
@@ -35,7 +37,8 @@ export class LoginComponent implements OnInit, IEventListenr {
 
   login() {
     this.loading = true;
-      if(this.captchaAprovado) {
+
+      if(this.captchaAprovado || this.contadorLogin < 5) {
         this.authenticationService.login ("http://127.0.0.1:2301/authorize?grant_type=password&username=" + this.model.username + "&password=" + this.model.password, '')
           .subscribe (result => {
               if (result === true) {
@@ -49,6 +52,8 @@ export class LoginComponent implements OnInit, IEventListenr {
             },
             err => {
               this.error = 'Usuario e/ou senha inválida';
+              this.contadorLogin ++;
+              this.loading = false;
             }
           );
       }

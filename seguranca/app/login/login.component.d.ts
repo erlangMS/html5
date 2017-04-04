@@ -9,6 +9,7 @@ export declare class LoginComponent implements OnInit, IEventListenr {
     private model;
     private loading;
     private error;
+    private contadorLogin;
     captchaAprovado: boolean;
     constructor(router: Router, authenticationService: AuthenticationService, eventManager: EventManagerService);
     ngOnInit(): void;

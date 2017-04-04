@@ -5,3 +5,6 @@
   float: right;
   margin-bottom: 10px;
 }
+.disabled {
+  display: none;
+}
