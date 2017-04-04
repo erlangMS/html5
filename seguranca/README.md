@@ -3,19 +3,19 @@
 
 This module create a security front-end for your application, this module provides:
   
-  abstraction for create a default headers for all requests.
-  
-  Services for autentication with any tipe of authorization.
-  
-  Session timer for your application.
-  
-  Framework for emit and subscribe.
-  
-  Framework for create a cookie (Beta developer)
-  
-  Include API for recapcha google.
-  
-  Service for protect all your routes if user isn't autenticated.
+     abstraction for create a default headers for all requests.
+     
+     Services for autentication with any tipe of authorization.
+     
+     Session timer for your application.
+     
+     Framework for emit and subscribe.
+     
+     Framework for create a cookie (Beta developer)
+     
+     Include API for recapcha google.
+     
+     Service for protect all your routes if user isn't autenticated.
 
 In the others versions many other functionalities are include in this securty module like:
     
@@ -33,132 +33,104 @@ In the others versions many other functionalities are include in this securty mo
 
 ## Prerequisites
 
-Node.js and npm are essential to Angular development. 
+Node.js and npm are essential to development. 
     
-<a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
-Get it now</a> if it's not already installed on your machine.
- 
-**Verify that you are running at least node `v4.x.x` and npm `3.x.x`**
-by running `node -v` and `npm -v` in a terminal/console window.
-Older versions produce errors.
+in your project you have to run this command line
 
-We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm.
+        npm install seguranca
+        npm install -g typings webpack rimraf webpack
 
-## Create a new project based on the QuickStart
+## Use security module in your application
 
-Clone this repo into new project folder (e.g., `my-proj`).
-```bash
-git clone  https://github.com/angular/quickstart  my-proj
-cd my-proj
-```
+You have to import this components in your AppModule
 
-We have no intention of updating the source on `angular/quickstart`.
-Discard everything "git-like" by deleting the `.git` folder.
-```bash
-rm -rf .git  # non-Windows
-rd .git /S/Q # windows
-```
+    import { NgModule } from '@angular/core';
+    import { AppComponent } from './app.component';
+    import { routing } from './app.routing';
+    import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
+    import { BrowserModule  } from '@angular/platform-browser';
+    import { HttpModule, JsonpModule } from '@angular/http';
+    import { NavigationComponent, AuthenticationService, AuthGuard, ErroComponent } from 'seguranca';
 
-### Create a new git repo
-You could [start writing code](#start-development) now and throw it all away when you're done.
-If you'd rather preserve your work under source control, consider taking the following steps.
+    @NgModule({
+       declarations: [
+          AppComponent,
+          NavigationComponent,
+          ErroComponent
+     ],
+     imports: [
+         HttpModule,
+         FormsModule,
+         BrowserModule,
+         routing
+     ],
+      providers: [
+        AuthenticationService,
+        AuthGuard
+       ],
+       bootstrap: [ AppComponent ]
+     })
+     export class AppModule {
+    }
 
-Initialize this project as a *local git repo* and make the first commit:
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-```
+After this you need to implement, in this version, a LoginComponent and integrate with AuthorizationService for use all the functionalities in security module. In another versions this isn't need to do, the framework will provide a login page dinamically and configurable.
+     
+     import { Component, OnInit, Input } from '@angular/core';
+     import { Router } from '@angular/router';
+     import {AuthenticationService} from '../_services/authentication.service';
+     import {EventManagerService, IEventListenr} from "../_register/event.amanger.service";
 
-Create a *remote repository* for this project on the service of your choice.
 
-Grab its address (e.g. *`https://github.com/<my-org>/my-proj.git`*) and push the *local repo* to the *remote*.
-```bash
-git remote add origin <repo-address>
-git push -u origin master
-```
-## Install npm packages
+     @Component({
+       selector: 'app-login',
+       templateUrl: 'app/login/login.component.html',
+       styleUrls: ['app/login/login.component.css']
+     })
+    export class LoginComponent implements OnInit, IEventListenr {
 
-> See npm and nvm version notes above
+        private model: any = {};
+        private loading = false;
+        private error: string = '';
+        private contadorLogin = 0;
 
-Install the npm packages described in the `package.json` and verify that it works:
+       captchaAprovado = false;
 
-```bash
-npm install
-npm start
-```
 
-The `npm start` command first compiles the application, 
-then simultaneously re-compiles and runs the `lite-server`.
-Both the compiler and the server watch for file changes.
+        constructor(
+          private router: Router,
+          private authenticationService: AuthenticationService,
+          private eventManager: EventManagerService) { }
 
-Shut it down manually with `Ctrl-C`.
+        ngOnInit() {
+          this.eventManager.registerEvent('VALIDATE_CAPTCHA',this,(args:any)=>{
+          this.captchaAprovado = true;
+          this.loading = false;
+        });
+      }
 
-You're ready to write your application.
+      ngOnDestroy(){
 
-### npm scripts
+      }
 
-We've captured many of the most useful commands in npm scripts defined in the `package.json`:
+      login() {
+        this.loading = true;
 
-* `npm start` - runs the compiler and a server at the same time, both in "watch mode".
-* `npm run tsc` - runs the TypeScript compiler once.
-* `npm run tsc:w` - runs the TypeScript compiler in watch mode; the process keeps running, awaiting changes to TypeScript files and re-compiling when it sees them.
-* `npm run lite` - runs the [lite-server](https://www.npmjs.com/package/lite-server), a light-weight, static file server, written and maintained by
-[John Papa](https://github.com/johnpapa) and
-[Christopher Martin](https://github.com/cgmartin)
-with excellent support for Angular apps that use routing.
+          if(this.captchaAprovado || this.contadorLogin < 5) {
+             this.authenticationService.login ("http://127.0.0.1:2301/authorize?grant_type=password&username=" + this.model.username +   "&password=" + this.model.password, '')
+            .subscribe (result => {
+                  this.authenticationService.periodicIncrement (3600);
+                  this.error = '';
+                  window.location.href = "http://" + document.location.host + "/seguranca/";
+                }
+              },
+              err => {
+                this.error = 'Usuario e/ou senha inválida';
+                this.contadorLogin ++;
+                this.loading = false;
+              }
+            );
+        }
+      }
+    }
 
-Here are the test related scripts:
-* `npm test` - compiles, runs and watches the karma unit tests
-* `npm run e2e` - run protractor e2e tests, written in JavaScript (*e2e-spec.js)
-
-## Testing
-
-The QuickStart documentation doesn't discuss testing.
-This repo adds both karma/jasmine unit test and protractor end-to-end testing support.
-
-These tools are configured for specific conventions described below.
-
-*It is unwise and rarely possible to run the application, the unit tests, and the e2e tests at the same time.
-We recommend that you shut down one before starting another.*
-
-### Unit Tests
-TypeScript unit-tests are usually in the `app` folder. Their filenames must end in `.spec`.
-
-Look for the example `app/app.component.spec.ts`.
-Add more `.spec.ts` files as you wish; we configured karma to find them.
-
-Run it with `npm test`
-
-That command first compiles the application, then simultaneously re-compiles and runs the karma test-runner.
-Both the compiler and the karma watch for (different) file changes.
-
-Shut it down manually with `Ctrl-C`.
-
-Test-runner output appears in the terminal window.
-We can update our app and our tests in real-time, keeping a weather eye on the console for broken tests.
-Karma is occasionally confused and it is often necessary to shut down its browser or even shut the command down (`Ctrl-C`) and
-restart it. No worries; it's pretty quick.
-
-### End-to-end (E2E) Tests
-
-E2E tests are in the `e2e` directory, side by side with the `app` folder.
-Their filenames must end in `.e2e-spec.ts`.
-
-Look for the example `e2e/app.e2e-spec.ts`.
-Add more `.e2e-spec.js` files as you wish (although one usually suffices for small projects);
-we configured protractor to find them.
-
-Thereafter, run them with `npm run e2e`.
-
-That command first compiles, then simultaneously starts the Http-Server at `localhost:8080`
-and launches protractor.  
-
-The pass/fail test results appear at the bottom of the terminal window.
-A custom reporter (see `protractor.config.js`) generates a  `./_test-output/protractor-results.txt` file
-which is easier to read; this file is excluded from source control.
-
-Shut it down manually with `Ctrl-C`.
-
-[travis-badge]: https://travis-ci.org/angular/quickstart.svg?branch=master
-[travis-badge-url]: https://travis-ci.org/angular/quickstart
+This is a initial security framework for Angular, this implements some requisits presents in documentation Angular.io
