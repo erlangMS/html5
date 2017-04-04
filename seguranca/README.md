@@ -1,5 +1,4 @@
 # Module Seguranca Angular
-[![Build Status][travis-badge]][travis-badge-url]
 
 This module create a security front-end for your application, this module provides:
   
