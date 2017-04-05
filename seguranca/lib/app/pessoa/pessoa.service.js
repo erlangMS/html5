@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var pessoa_module_1 = require("./pessoa.module");
+var pessoa_1 = require("./pessoa");
 var http_1 = require('@angular/http');
 var router_1 = require("@angular/router");
 var PessoaService = (function () {
@@ -21,8 +21,12 @@ var PessoaService = (function () {
         return this.http.post('http://localhost:2301/unb_aula/pessoa', pessoa, {})
             .map(function (response) {
             console.log(response.json());
-            return new pessoa_module_1.Pessoa().fromJSON(response.json());
+            return new pessoa_1.Pessoa().fromJSON(response.json());
         });
+    };
+    PessoaService.prototype.findAluno = function () {
+        return this.http.get("http://localhost:2301//academico/aluno", [])
+            .map(function (response) { return console.log("Resposta da consulta:  " + response); });
     };
     PessoaService.prototype.find = function () {
         return this.http.get('http://localhost:2301/unb_aula/pessoa', {})
@@ -36,7 +40,7 @@ var PessoaService = (function () {
         return this.http.put('http://localhost:2301/unb_aula/pessoa/' + pessoa.id, pessoa, {})
             .map(function (response) {
             console.log(response.json());
-            return new pessoa_module_1.Pessoa().fromJSON(response.json());
+            return new pessoa_1.Pessoa().fromJSON(response.json());
         });
     };
     PessoaService.prototype.delete = function (pessoa) {

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var pessoa_module_1 = require("./pessoa.module");
+var pessoa_1 = require("./pessoa");
 var pessoa_service_1 = require("./pessoa.service");
 var router_1 = require("@angular/router");
 var PessoaComponent = (function () {
@@ -21,7 +21,7 @@ var PessoaComponent = (function () {
     PessoaComponent.prototype.ngOnInit = function () {
         this.model = this.pessoaService.pessoa;
         if (this.model == null) {
-            this.model = new pessoa_module_1.Pessoa();
+            this.model = new pessoa_1.Pessoa();
         }
         else {
             this.hidden = false;
@@ -47,8 +47,14 @@ var PessoaComponent = (function () {
             _this.route.navigate(['/pessoa/lista']);
         });
     };
+    PessoaComponent.prototype.findAluno = function () {
+        this.pessoaService.findAluno()
+            .subscribe(function (result) {
+            return console.log(result);
+        });
+    };
     PessoaComponent.prototype.newHero = function () {
-        this.model = new pessoa_module_1.Pessoa();
+        this.model = new pessoa_1.Pessoa();
     };
     PessoaComponent = __decorate([
         core_1.Component({

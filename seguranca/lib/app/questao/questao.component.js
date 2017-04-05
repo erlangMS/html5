@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require("@angular/router");
-var questao_module_1 = require("./questao.module");
+var questao_1 = require("./questao");
 var questao_service_1 = require("./questao.service");
 var pessoa_service_1 = require("../pessoa/pessoa.service");
 var QuestaoComponent = (function () {
@@ -24,7 +24,7 @@ var QuestaoComponent = (function () {
         var _this = this;
         this.questao = this.questaoService.questao;
         if (this.questao == null) {
-            this.questao = new questao_module_1.Questao();
+            this.questao = new questao_1.Questao();
         }
         else {
             this.hidden = false;

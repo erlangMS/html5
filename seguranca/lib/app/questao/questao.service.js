@@ -17,7 +17,7 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var router_1 = require("@angular/router");
 var default_headers_1 = require("../_headers/default.headers");
-var questao_module_1 = require("./questao.module");
+var questao_1 = require("./questao");
 var QuestaoService = (function (_super) {
     __extends(QuestaoService, _super);
     function QuestaoService(http, route) {
@@ -29,7 +29,7 @@ var QuestaoService = (function (_super) {
         return this.http.post('http://localhost:2301/unb_aula/pessoa/' + questao.idPessoa + '/questao', questao, { headers: this.headers })
             .map(function (response) {
             console.log(response.json());
-            return new questao_module_1.Questao().fromJSON(response.json());
+            return new questao_1.Questao().fromJSON(response.json());
         });
     };
     QuestaoService.prototype.findByIdPessoa = function (idPessoa) {

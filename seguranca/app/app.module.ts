@@ -55,6 +55,5 @@ import {CookieService} from "./_cookie/cookie.service";
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
-
+    
 }

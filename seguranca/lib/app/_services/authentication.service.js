@@ -13,26 +13,24 @@ var http_1 = require('@angular/http');
 var router_1 = require("@angular/router");
 require('rxjs/add/operator/map');
 var AuthenticationService = (function () {
-    function AuthenticationService(http, route, options) {
+    function AuthenticationService(http, route) {
         this.http = http;
         this.route = route;
-        this.options = options;
         this.time = 0;
         this.intervalId = null;
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
-    AuthenticationService.prototype.login = function (login, senha) {
+    AuthenticationService.prototype.login = function (url, body, authorization) {
         var _this = this;
-        this.getUrl(login, senha);
-        return this.http.post(this.url, this.body)
+        return this.http.post(url, body)
             .map(function (response) {
-            var token = response.json() && response.json();
+            var token = response.json();
             if (token) {
                 _this.token = token;
                 localStorage.setItem('currentUser', JSON.stringify(response.json()));
-                var sessionTime = JSON.parse(localStorage.getItem('currentUser'));
-                _this.periodicIncrement(sessionTime.expires_in);
+                localStorage.setItem('authorization', JSON.stringify(authorization));
+                _this.periodicIncrement(3600);
                 return true;
             }
             else {
@@ -40,16 +38,29 @@ var AuthenticationService = (function () {
             }
         });
     };
-    AuthenticationService.prototype.getUrl = function (login, senha) {
-        var _this = this;
-        return this.http.get('seguranca/url_security.json')
+    AuthenticationService.prototype.setLocalConfigurationFile = function (path) {
+        this.localConfigurationFile = path;
+    };
+    AuthenticationService.prototype.getUrl = function (login, senha, arquivo) {
+        if (this.localConfigurationFile) {
+            arquivo = this.localConfigurationFile;
+        }
+        return this.http.get(arquivo)
             .map(function (res) {
             var json = res.json();
-            _this.url = json.url + '' + json.param1 + '' + login + '' + json.param2 + '' + senha;
-            _this.body = json.body;
-            return _this.url;
+            var url = json.url + '' + json.param1 + '' + login + '' + json.param2 + '' + senha;
+            var body = json.body;
+            var authorization = json.authorization;
+            return { url: url, body: body, authorization: authorization };
         });
     };
+    /*Verificar método para recuperar ip da máquina
+    getIpClient(){
+      return this.http.get('')
+        .map((res) => {
+          return res;
+        });
+    }*/
     AuthenticationService.prototype.periodicIncrement = function (sessionTime) {
         var _this = this;
         this.cancelPeriodicIncrement();
@@ -84,11 +95,12 @@ var AuthenticationService = (function () {
         this.cancelPeriodicIncrement();
         this.token = null;
         localStorage.removeItem('currentUser');
+        localStorage.removeItem("dateAccessPage");
         this.route.navigate(['']);
     };
     AuthenticationService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, router_1.Router, http_1.RequestOptions])
+        __metadata('design:paramtypes', [http_1.Http, router_1.Router])
     ], AuthenticationService);
     return AuthenticationService;
 }());

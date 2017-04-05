@@ -12,23 +12,21 @@ var platform_browser_1 = require('@angular/platform-browser');
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
+var common_1 = require('@angular/common');
 var app_component_1 = require('./app.component');
-var home_component_1 = require('./home/home.component');
 var navigation_component_1 = require('./navigation/navigation.component');
-var login_component_1 = require('./login/login.component');
-var form_component_1 = require('./form/form.component');
-var app_routing_1 = require('./app.routing');
 var auth_guard_1 = require("./_guards/auth.guard");
 var authentication_service_1 = require("./_services/authentication.service");
 var user_service_1 = require("./_services/user.service");
-var pessoa_component_1 = require('./pessoa/pessoa.component');
-var pessoa_service_1 = require('./pessoa/pessoa.service');
-var lista_component_1 = require("./pessoa/lista/lista.component");
-var erro_component_1 = require('./erro/erro.component');
 var rodape_component_1 = require("./rodape/rodape.component");
 var default_headers_1 = require("./_headers/default.headers");
-var questao_component_1 = require("./questao/questao.component");
-var questao_service_1 = require("./questao/questao.service");
+var home_module_1 = require("./home/home.module");
+var form_module_1 = require("./form/form.module");
+var pessoa_module_1 = require("./pessoa/pessoa.module");
+var erro_module_1 = require("./erro/erro.module");
+var questao_module_1 = require("./questao/questao.module");
+var app_routing_1 = require("./app.routing");
+var cookie_service_1 = require("./_cookie/cookie.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -36,23 +34,21 @@ var AppModule = (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
-                home_component_1.HomeComponent,
                 navigation_component_1.NavigationComponent,
-                login_component_1.LoginComponent,
-                form_component_1.FormComponent,
-                pessoa_component_1.PessoaComponent,
-                lista_component_1.ListaComponent,
-                erro_component_1.ErroComponent,
-                rodape_component_1.RodapeComponent,
-                questao_component_1.QuestaoComponent
+                rodape_component_1.RodapeComponent
             ],
             imports: [
                 http_1.HttpModule,
                 platform_browser_1.BrowserModule,
                 forms_1.FormsModule,
+                home_module_1.HomeModule,
+                form_module_1.FormModule,
+                pessoa_module_1.PessoaModule,
+                erro_module_1.ErroModule,
+                questao_module_1.QuestaoModule,
                 app_routing_1.routing
             ],
-            providers: [app_routing_1.appRoutingProviders, auth_guard_1.AuthGuard, authentication_service_1.AuthenticationService, user_service_1.UserService, pessoa_service_1.PessoaService, questao_service_1.QuestaoService,
+            providers: [auth_guard_1.AuthGuard, authentication_service_1.AuthenticationService, user_service_1.UserService, cookie_service_1.CookieService,
                 {
                     provide: http_1.XSRFStrategy,
                     useValue: new http_1.CookieXSRFStrategy('csrftoken', 'X-CSRF-Token')
@@ -60,6 +56,10 @@ var AppModule = (function () {
                 {
                     provide: http_1.RequestOptions,
                     useClass: default_headers_1.DefaultHeaders
+                },
+                {
+                    provide: common_1.LocationStrategy,
+                    useClass: common_1.HashLocationStrategy
                 }
             ],
             bootstrap: [app_component_1.AppComponent]

@@ -1,19 +1,22 @@
-import { Http, RequestOptions } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
 import 'rxjs/add/operator/map';
 export declare class AuthenticationService {
     private http;
     private route;
-    private options;
-    token: string;
+    token: any;
     time: number;
     intervalId: any;
-    private url;
-    private body;
-    constructor(http: Http, route: Router, options: RequestOptions);
-    login(login: string, senha: string): Observable<boolean>;
-    getUrl(login: string, senha: string): Observable<string>;
+    private localConfigurationFile;
+    constructor(http: Http, route: Router);
+    login(url: string, body: string, authorization: string): Observable<boolean>;
+    setLocalConfigurationFile(path: string): void;
+    getUrl(login: string, senha: string, arquivo: string): Observable<{
+        url: string;
+        body: any;
+        authorization: any;
+    }>;
     periodicIncrement(sessionTime: number): void;
     cancelPeriodicIncrement(): void;
     getSitemap(): Observable<any>;

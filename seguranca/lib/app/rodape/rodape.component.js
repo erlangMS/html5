@@ -14,10 +14,10 @@ var RodapeComponent = (function () {
     }
     RodapeComponent = __decorate([
         core_1.Component({
-            templateUrl: 'app/rodape/rodape.html',
+            templateUrl: './node_modules/seguranca/app/rodape/rodape.html',
             selector: 'rodape',
-            styleUrls: ['app/rodape/rodape.css']
-        }), 
+            styleUrls: ['./node_modules/seguranca/app/rodape/rodape.css']
+        }),
         __metadata('design:paramtypes', [])
     ], RodapeComponent);
     return RodapeComponent;

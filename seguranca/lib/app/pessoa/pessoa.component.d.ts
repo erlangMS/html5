@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { Pessoa } from "./pessoa.module";
+import { Pessoa } from "./pessoa";
 import { PessoaService } from "./pessoa.service";
 import { Router } from "@angular/router";
 export declare class PessoaComponent implements OnInit {
@@ -11,5 +11,6 @@ export declare class PessoaComponent implements OnInit {
     hidden: boolean;
     onSubmit(): void;
     editar(): void;
+    findAluno(): void;
     newHero(): void;
 }

@@ -9,15 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
+var authentication_service_1 = require("./_services/authentication.service");
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(authenticationService, loc) {
+        this.authenticationService = authenticationService;
+        this.loc = loc;
+        this.timeSession = 3600;
+        this.location = loc;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        if (localStorage.getItem('currentUser')) {
+            var sessionTime = JSON.parse(localStorage.getItem('currentUser'));
+            this.authenticationService.periodicIncrement(this.timeSession);
+        }
+        if (localStorage.getItem("dateAccessPage")) {
+            var dateSecoundAccess = Date.now();
+            this.localDateTime = Number(localStorage.getItem("dateAccessPage"));
+            var value = dateSecoundAccess - this.localDateTime;
+            if (value >= (this.timeSession * 1000)) {
+                this.authenticationService.logout();
+            }
+        }
+        else {
+            this.localDateTime = Date.now();
+            localStorage.setItem("dateAccessPage", this.localDateTime.toString());
+        }
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, common_1.Location])
     ], AppComponent);
     return AppComponent;
 }());

@@ -1,11 +1,14 @@
 {
   "name": "seguranca",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "sistema fornend de segurança",
   "main": "seguranca.js",
   "typings": "seguranca.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "url": "https://github.com/rcarauta/seguranca.git"
   },
   "author": "Renato Carauta Ribeiro",
   "license": "ISC",

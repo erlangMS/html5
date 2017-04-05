@@ -6,6 +6,5 @@ export declare class AuthGuard implements CanActivate {
     private http;
     private authenticationService;
     constructor(router: Router, http: Http, authenticationService: AuthenticationService);
-    private menu;
     canActivate(): boolean;
 }

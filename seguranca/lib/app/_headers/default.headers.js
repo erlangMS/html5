@@ -19,14 +19,25 @@ var DefaultHeaders = (function (_super) {
     __extends(DefaultHeaders, _super);
     function DefaultHeaders() {
         _super.call(this);
+        var usuario = JSON.parse(localStorage.getItem('currentUser'));
+        var authorization = JSON.parse(localStorage.getItem("authorization"));
+        if (authorization == "Basic" && usuario) {
+            this.setHeaders("Authorization", "Basic " + btoa(usuario.username + ":" + usuario.password));
+        }
+        else if (authorization == "Oauth2" && usuario) {
+            this.setHeaders("Authorization", "Barer " + usuario.authorization);
+        }
     }
     DefaultHeaders.prototype.merge = function (options) {
-        var headers = new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' });
-        options.headers = headers;
+        options.headers = DefaultHeaders.headers;
         var result = _super.prototype.merge.call(this, options);
         result.merge = this.merge;
         return result;
     };
+    DefaultHeaders.prototype.setHeaders = function (name, value) {
+        DefaultHeaders.headers.append(name, value);
+    };
+    DefaultHeaders.headers = new http_1.Headers({ 'content-type': 'application/json; charset=utf-8' });
     DefaultHeaders = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

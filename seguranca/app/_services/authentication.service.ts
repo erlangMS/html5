@@ -13,6 +13,7 @@ export class AuthenticationService {
   public time: number = 0;
   intervalId: any = null;
 
+  private localConfigurationFile:string;
 
 
   constructor(private http: Http, private route: Router) {
@@ -36,7 +37,14 @@ export class AuthenticationService {
       });
   }
 
+  setLocalConfigurationFile(path:string) {
+    this.localConfigurationFile = path;
+  }
+
   getUrl(login:string, senha: string,arquivo:string) {
+    if(this.localConfigurationFile){
+      arquivo = this.localConfigurationFile;
+    }
     return this.http.get(arquivo)
       .map((res) => {
         var json = res.json();

@@ -10,43 +10,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var authentication_service_1 = require("../_services/authentication.service");
+var authentication_service_1 = require('../_services/authentication.service');
+var event_amanger_service_1 = require("../_register/event.amanger.service");
 var LoginComponent = (function () {
-    function LoginComponent(router, authenticationService) {
+    function LoginComponent(router, authenticationService, eventManager) {
         this.router = router;
         this.authenticationService = authenticationService;
+        this.eventManager = eventManager;
         this.model = {};
         this.loading = false;
         this.error = '';
+        this.contadorLogin = 0;
+        this.captchaAprovado = false;
     }
     LoginComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.eventManager.registerEvent('VALIDATE_CAPTCHA', this, function (args) {
+            _this.captchaAprovado = true;
+            _this.loading = false;
+        });
+    };
+    LoginComponent.prototype.ngOnDestroy = function () {
     };
     LoginComponent.prototype.login = function () {
         var _this = this;
         this.loading = true;
-        this.authenticationService.login(this.model.username, this.model.password)
-            .subscribe(function (result) {
-            if (result === true) {
-                _this.authenticationService.getSitemap().subscribe(function (resp) {
-                    console.log('resposta do siteMap');
+        if (this.captchaAprovado || this.contadorLogin < 5) {
+            this.authenticationService.getUrl(this.model.username, this.model.password, '/seguranca/url_security.json')
+                .subscribe(function (resultado) {
+                _this.authenticationService.login(resultado.url, resultado.body, resultado.authorization)
+                    .subscribe(function (result) {
+                    if (result === true) {
+                        _this.authenticationService.periodicIncrement(3600);
+                        _this.error = '';
+                        window.location.href = "http://" + document.location.host + "/seguranca/";
+                    }
+                }, function (err) {
+                    _this.error = 'Usuario e/ou senha inválida';
+                    _this.contadorLogin++;
+                    _this.loading = false;
                 });
-                var sessionTime = JSON.parse(localStorage.getItem('currentUser'));
-                _this.authenticationService.periodicIncrement(sessionTime.expires_in);
-                _this.router.navigate(['/']);
-            }
-            else {
-                _this.error = 'Nome do usuário incorreto!';
-                _this.loading = false;
-            }
-        });
+            });
+        }
     };
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'app-login',
-            templateUrl: 'app/login/login.component.html',
-            styleUrls: ['app/login/login.component.css']
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, authentication_service_1.AuthenticationService])
+            templateUrl: './node_modules/seguranca/app/login/login.component.html',
+            styleUrls: ['./node_modules/seguranca/app/login/login.component.css']
+        }),
+        __metadata('design:paramtypes', [router_1.Router, authentication_service_1.AuthenticationService, event_amanger_service_1.EventManagerService])
     ], LoginComponent);
     return LoginComponent;
 }());

@@ -20,11 +20,9 @@ var AuthGuard = (function () {
     }
     AuthGuard.prototype.canActivate = function () {
         if (localStorage.getItem('currentUser')) {
-            this.menu = sessionStorage.getItem('menu');
-            //mudar para verificar a presença do token
             var usuario = JSON.parse(localStorage.getItem('currentUser'));
-            if (usuario) {
-                this.authenticationService.periodicIncrement(usuario.expires_in);
+            if (usuario.authorization) {
+                this.authenticationService.periodicIncrement(3600);
                 return true;
             }
             else {
