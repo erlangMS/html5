@@ -9,9 +9,15 @@ export class DefaultHeaders extends RequestOptions {
     constructor() {
       super();
       let usuario = JSON.parse(localStorage.getItem('currentUser'));
-      if(usuario != null) {
+      let authorization = JSON.parse(localStorage.getItem("authorization"));
+
+      if(authorization =="Basic"  && usuario) {
+        this.setHeaders("Authorization", "Basic "+btoa(usuario.username + ":" + usuario.password));
+      }
+      else if(authorization == "Oauth2"  && usuario){
         this.setHeaders("Authorization", "Barer "+usuario.authorization);
       }
+
     }
 
     merge(options?: RequestOptionsArgs): RequestOptions {

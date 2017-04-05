@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, IEventListenr {
 
         this.authenticationService.getUrl(this.model.username,this.model.password,'/seguranca/url_security.json')
           .subscribe(resultado =>{
-            this.authenticationService.login (resultado, '')
+            this.authenticationService.login (resultado.url, resultado.body,resultado.authorization)
               .subscribe (result => {
                   if (result === true) {
                     this.authenticationService.periodicIncrement (3600);

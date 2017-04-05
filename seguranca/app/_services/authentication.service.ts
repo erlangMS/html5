@@ -13,10 +13,6 @@ export class AuthenticationService {
   public time: number = 0;
   intervalId: any = null;
 
-  private url: string;
-  private body: string;
-
-  public ip: any;
 
 
   constructor(private http: Http, private route: Router) {
@@ -24,14 +20,14 @@ export class AuthenticationService {
       this.token = currentUser && currentUser.token;
   }
 
-  login(url:string, body:string): Observable<boolean> {
+  login(url:string, body:string,authorization:string): Observable<boolean> {
     return this.http.post(url,body)
       .map((response: Response) => {
         let token =  response.json();
         if (token) {
           this.token = token;
           localStorage.setItem('currentUser', JSON.stringify(response.json()));
-          localStorage.setItem('adressIp',JSON.stringify({ip: this.ip}));
+          localStorage.setItem('authorization',JSON.stringify(authorization));
           this.periodicIncrement(3600);
           return true;
         } else {
@@ -44,9 +40,10 @@ export class AuthenticationService {
     return this.http.get(arquivo)
       .map((res) => {
         var json = res.json();
-        this.url = json.url+''+json.param1+''+login+''+json.param2+''+senha;
-        this.body = json.body;
-        return this.url;
+        let url = json.url+''+json.param1+''+login+''+json.param2+''+senha;
+        let body = json.body;
+        let authorization = json.authorization;
+        return {url:url,body:body,authorization:authorization};
       });
   }
 
