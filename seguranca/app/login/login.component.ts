@@ -29,6 +29,9 @@ export class LoginComponent implements OnInit, IEventListenr {
       this.captchaAprovado = true;
       this.loading = false;
     });
+
+
+
   }
 
   ngOnDestroy(){
@@ -39,23 +42,24 @@ export class LoginComponent implements OnInit, IEventListenr {
     this.loading = true;
 
       if(this.captchaAprovado || this.contadorLogin < 5) {
-        this.authenticationService.login ("http://127.0.0.1:2301/authorize?grant_type=password&username=" + this.model.username + "&password=" + this.model.password, '')
-          .subscribe (result => {
-              if (result === true) {
-                this.authenticationService.getSitemap ().subscribe (resp=> {
 
-                });
-                this.authenticationService.periodicIncrement (3600);
-                this.error = '';
-                window.location.href = "http://" + document.location.host + "/seguranca/";
-              }
-            },
-            err => {
-              this.error = 'Usuario e/ou senha inválida';
-              this.contadorLogin ++;
-              this.loading = false;
-            }
-          );
+        this.authenticationService.getUrl(this.model.username,this.model.password,'/seguranca/url_security.json')
+          .subscribe(resultado =>{
+            this.authenticationService.login (resultado, '')
+              .subscribe (result => {
+                  if (result === true) {
+                    this.authenticationService.periodicIncrement (3600);
+                    this.error = '';
+                    window.location.href = "http://" + document.location.host + "/seguranca/";
+                  }
+                },
+                err => {
+                  this.error = 'Usuario e/ou senha inválida';
+                  this.contadorLogin ++;
+                  this.loading = false;
+                }
+              );
+          });
       }
   }
 

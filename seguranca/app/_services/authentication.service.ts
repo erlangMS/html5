@@ -40,8 +40,8 @@ export class AuthenticationService {
       });
   }
 
-  getUrl(login:string, senha: string) {
-    return this.http.get('/arquitetura-basica/url_security.json')
+  getUrl(login:string, senha: string,arquivo:string) {
+    return this.http.get(arquivo)
       .map((res) => {
         var json = res.json();
         this.url = json.url+''+json.param1+''+login+''+json.param2+''+senha;

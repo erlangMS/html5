@@ -13,7 +13,7 @@ export declare class AuthenticationService {
     ip: any;
     constructor(http: Http, route: Router);
     login(url: string, body: string): Observable<boolean>;
-    getUrl(login: string, senha: string): Observable<string>;
+    getUrl(login: string, senha: string, arquivo: string): Observable<string>;
     periodicIncrement(sessionTime: number): void;
     cancelPeriodicIncrement(): void;
     getSitemap(): Observable<any>;
