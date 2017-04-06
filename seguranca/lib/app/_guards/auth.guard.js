@@ -21,7 +21,8 @@ var AuthGuard = (function () {
     AuthGuard.prototype.canActivate = function () {
         if (localStorage.getItem('currentUser')) {
             var usuario = JSON.parse(localStorage.getItem('currentUser'));
-            if (usuario.authorization) {
+            var authorizationType = JSON.parse(localStorage.getItem("authorization"));
+            if (authorizationType != undefined && usuario != undefined) {
                 this.authenticationService.periodicIncrement(3600);
                 return true;
             }

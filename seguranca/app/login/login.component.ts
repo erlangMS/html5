@@ -28,10 +28,11 @@ export class LoginComponent implements OnInit, IEventListenr {
     this.eventManager.registerEvent('VALIDATE_CAPTCHA',this,(args:any)=>{
       this.captchaAprovado = true;
       this.loading = false;
+      let body = document.getElementById('login');
+      body.classList.remove("disabled");
+      this.contadorLogin = 4;
+
     });
-
-
-
   }
 
   ngOnDestroy(){
@@ -57,6 +58,7 @@ export class LoginComponent implements OnInit, IEventListenr {
                   this.error = 'Usuario e/ou senha inválida';
                   this.contadorLogin ++;
                   this.loading = false;
+                  this.captchaAprovado = false;
                 }
               );
           });

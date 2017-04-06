@@ -56,9 +56,9 @@ var LoginComponent = (function () {
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'app-login',
-            templateUrl: './node_modules/seguranca/app/login/login.component.html',
-            styleUrls: ['./node_modules/seguranca/app/login/login.component.css']
-        }),
+            templateUrl: 'app/login/login.component.html',
+            styleUrls: ['app/login/login.component.css']
+        }), 
         __metadata('design:paramtypes', [router_1.Router, authentication_service_1.AuthenticationService, event_amanger_service_1.EventManagerService])
     ], LoginComponent);
     return LoginComponent;
