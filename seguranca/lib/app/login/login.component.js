@@ -28,6 +28,9 @@ var LoginComponent = (function () {
         this.eventManager.registerEvent('VALIDATE_CAPTCHA', this, function (args) {
             _this.captchaAprovado = true;
             _this.loading = false;
+            var body = document.getElementById('login');
+            body.classList.remove("disabled");
+            _this.contadorLogin = 4;
         });
     };
     LoginComponent.prototype.ngOnDestroy = function () {
@@ -49,6 +52,7 @@ var LoginComponent = (function () {
                     _this.error = 'Usuario e/ou senha inválida';
                     _this.contadorLogin++;
                     _this.loading = false;
+                    _this.captchaAprovado = false;
                 });
             });
         }

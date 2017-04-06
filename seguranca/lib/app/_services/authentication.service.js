@@ -38,12 +38,10 @@ var AuthenticationService = (function () {
             }
         });
     };
-    AuthenticationService.prototype.setLocalConfigurationFile = function (path) {
-        this.localConfigurationFile = path;
-    };
     AuthenticationService.prototype.getUrl = function (login, senha, arquivo) {
-        if (this.localConfigurationFile) {
-            arquivo = this.localConfigurationFile;
+        var arquivoExterno = localStorage.getItem('externalFile');
+        if (arquivoExterno) {
+            arquivo = arquivoExterno;
         }
         return this.http.get(arquivo)
             .map(function (res) {
@@ -51,16 +49,10 @@ var AuthenticationService = (function () {
             var url = json.url + '' + json.param1 + '' + login + '' + json.param2 + '' + senha;
             var body = json.body;
             var authorization = json.authorization;
+            localStorage.removeItem('externalFile');
             return { url: url, body: body, authorization: authorization };
         });
     };
-    /*Verificar método para recuperar ip da máquina
-    getIpClient(){
-      return this.http.get('')
-        .map((res) => {
-          return res;
-        });
-    }*/
     AuthenticationService.prototype.periodicIncrement = function (sessionTime) {
         var _this = this;
         this.cancelPeriodicIncrement();
@@ -96,6 +88,7 @@ var AuthenticationService = (function () {
         this.token = null;
         localStorage.removeItem('currentUser');
         localStorage.removeItem("dateAccessPage");
+        localStorage.removeItem('authorization');
         this.route.navigate(['']);
     };
     AuthenticationService = __decorate([

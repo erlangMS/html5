@@ -13,8 +13,6 @@ export class AuthenticationService {
   public time: number = 0;
   intervalId: any = null;
 
-  private localConfigurationFile:string;
-
 
   constructor(private http: Http, private route: Router) {
       var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -37,13 +35,10 @@ export class AuthenticationService {
       });
   }
 
-  setLocalConfigurationFile(path:string) {
-    this.localConfigurationFile = path;
-  }
-
   getUrl(login:string, senha: string,arquivo:string) {
-    if(this.localConfigurationFile){
-      arquivo = this.localConfigurationFile;
+    let arquivoExterno = localStorage.getItem('externalFile');
+    if(arquivoExterno){
+      arquivo = arquivoExterno;
     }
     return this.http.get(arquivo)
       .map((res) => {
@@ -51,17 +46,11 @@ export class AuthenticationService {
         let url = json.url+''+json.param1+''+login+''+json.param2+''+senha;
         let body = json.body;
         let authorization = json.authorization;
+        localStorage.removeItem('externalFile');
         return {url:url,body:body,authorization:authorization};
       });
   }
 
-  /*Verificar método para recuperar ip da máquina
-  getIpClient(){
-    return this.http.get('')
-      .map((res) => {
-        return res;
-      });
-  }*/
 
   periodicIncrement(sessionTime:number): void {
     this.cancelPeriodicIncrement();
@@ -100,6 +89,7 @@ export class AuthenticationService {
     this.token = null;
     localStorage.removeItem('currentUser');
     localStorage.removeItem("dateAccessPage");
+    localStorage.removeItem('authorization');
     this.route.navigate(['']);
   }
 
