@@ -17,3 +17,4 @@ export { AuthenticationService } from "./app/_services/authentication.service";
 export { NavigationComponent } from './app/navigation/navigation.component';
 export { RodapeComponent } from "./app/rodape/rodape.component";
 export { ErroComponent } from './app/erro/erro.component';
+export { RedirectService } from './app/_redirect/redirect.service';

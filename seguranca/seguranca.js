@@ -25,4 +25,6 @@ var rodape_component_1 = require("./app/rodape/rodape.component");
 exports.RodapeComponent = rodape_component_1.RodapeComponent;
 var erro_component_1 = require('./app/erro/erro.component');
 exports.ErroComponent = erro_component_1.ErroComponent;
+var redirect_service_1 = require('./app/_redirect/redirect.service');
+exports.RedirectService = redirect_service_1.RedirectService;
 //# sourceMappingURL=seguranca.js.map

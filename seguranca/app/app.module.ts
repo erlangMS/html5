@@ -5,7 +5,7 @@ import { HttpModule, XSRFStrategy, CookieXSRFStrategy, RequestOptions, Http } fr
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 
-import { AppComponent } from './app.component';
+import { SecurityComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import {AuthGuard} from "./_guards/auth.guard";
 import {AuthenticationService} from "./_services/authentication.service";
@@ -19,11 +19,12 @@ import {ErroModule} from "./erro/erro.module";
 import {QuestaoModule} from "./questao/questao.module";
 import {routing} from "./app.routing";
 import {CookieService} from "./_cookie/cookie.service";
+import {RedirectService} from "./_redirect/redirect.service";
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    SecurityComponent,
     NavigationComponent,
     RodapeComponent
   ],
@@ -38,7 +39,7 @@ import {CookieService} from "./_cookie/cookie.service";
     QuestaoModule,
     routing
   ],
-  providers: [AuthGuard, AuthenticationService,UserService, CookieService,
+  providers: [AuthGuard, AuthenticationService,UserService, CookieService, RedirectService,
     {
       provide: XSRFStrategy,
       useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRF-Token')
@@ -52,8 +53,8 @@ import {CookieService} from "./_cookie/cookie.service";
       useClass: HashLocationStrategy
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [SecurityComponent]
 })
 export class AppModule {
-    
+
 }

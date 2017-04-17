@@ -27,13 +27,14 @@ var erro_module_1 = require("./erro/erro.module");
 var questao_module_1 = require("./questao/questao.module");
 var app_routing_1 = require("./app.routing");
 var cookie_service_1 = require("./_cookie/cookie.service");
+var redirect_service_1 = require("./_redirect/redirect.service");
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             declarations: [
-                app_component_1.AppComponent,
+                app_component_1.SecurityComponent,
                 navigation_component_1.NavigationComponent,
                 rodape_component_1.RodapeComponent
             ],
@@ -48,7 +49,7 @@ var AppModule = (function () {
                 questao_module_1.QuestaoModule,
                 app_routing_1.routing
             ],
-            providers: [auth_guard_1.AuthGuard, authentication_service_1.AuthenticationService, user_service_1.UserService, cookie_service_1.CookieService,
+            providers: [auth_guard_1.AuthGuard, authentication_service_1.AuthenticationService, user_service_1.UserService, cookie_service_1.CookieService, redirect_service_1.RedirectService,
                 {
                     provide: http_1.XSRFStrategy,
                     useValue: new http_1.CookieXSRFStrategy('csrftoken', 'X-CSRF-Token')
@@ -62,7 +63,7 @@ var AppModule = (function () {
                     useClass: common_1.HashLocationStrategy
                 }
             ],
-            bootstrap: [app_component_1.AppComponent]
+            bootstrap: [app_component_1.SecurityComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

@@ -6,6 +6,6 @@
   "login": "grant_type=password&username=",
   "password": "&password=",
   "body_user" : "",
-  "authorization":"oauth2"
+  "authorization":"Oauth2"
 }
 

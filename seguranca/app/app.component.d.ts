@@ -1,15 +1,7 @@
 import { OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { AuthenticationService } from "./_services/authentication.service";
-export declare class AppComponent implements OnInit {
-    private authenticationService;
-    private loc;
-    location: Location;
-    timeSession: number;
-    private client_id;
-    localDateTime: number;
-    private error;
-    constructor(authenticationService: AuthenticationService, loc: Location);
+import { RedirectService } from "./_redirect/redirect.service";
+export declare class SecurityComponent implements OnInit {
+    private redirectService;
+    constructor(redirectService: RedirectService);
     ngOnInit(): void;
-    authenticateClient(): void;
 }
