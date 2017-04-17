@@ -39,7 +39,7 @@ var LoginComponent = (function () {
         var _this = this;
         this.loading = true;
         if (this.captchaAprovado || this.contadorLogin < 5) {
-            this.authenticationService.getUrl(this.model.username, this.model.password, '/seguranca/url_security.json')
+            this.authenticationService.getUrlForDirectLogin(this.model.username, this.model.password, '/seguranca/url_security.json')
                 .subscribe(function (resultado) {
                 _this.authenticationService.login(resultado.url, resultado.body, resultado.authorization)
                     .subscribe(function (result) {

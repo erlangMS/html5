@@ -29,7 +29,6 @@ var AuthenticationService = (function () {
             if (token) {
                 _this.token = token;
                 localStorage.setItem('currentUser', JSON.stringify(response.json()));
-                localStorage.setItem('authorization', JSON.stringify(authorization));
                 _this.periodicIncrement(3600);
                 return true;
             }
@@ -38,7 +37,15 @@ var AuthenticationService = (function () {
             }
         });
     };
-    AuthenticationService.prototype.getUrl = function (login, senha, arquivo) {
+    AuthenticationService.prototype.authenticateClient = function (url, body, authorization) {
+        return this.http.post(url, body)
+            .map(function (response) {
+            localStorage.setItem('currentClient', JSON.stringify(response.json()));
+            localStorage.setItem('authorization', JSON.stringify(authorization));
+            return true;
+        });
+    };
+    AuthenticationService.prototype.getUrl = function (clientId, arquivo) {
         var arquivoExterno = localStorage.getItem('externalFile');
         if (arquivoExterno) {
             arquivo = arquivoExterno;
@@ -46,8 +53,23 @@ var AuthenticationService = (function () {
         return this.http.get(arquivo)
             .map(function (res) {
             var json = res.json();
-            var url = json.url + '' + json.param1 + '' + login + '' + json.param2 + '' + senha;
-            var body = json.body;
+            var url = json.url_client + '' + clientId + '' + json.secret;
+            var body = json.body_client;
+            var authorization = json.authorization;
+            localStorage.removeItem('externalFile');
+            return { url: url, body: body, authorization: authorization };
+        });
+    };
+    AuthenticationService.prototype.getUrlForDirectLogin = function (login, senha, arquivo) {
+        var arquivoExterno = localStorage.getItem('externalFile');
+        if (arquivoExterno) {
+            arquivo = arquivoExterno;
+        }
+        return this.http.get(arquivo)
+            .map(function (res) {
+            var json = res.json();
+            var url = json.url_user + '' + json.login + '' + login + '' + json.password + '' + senha;
+            var body = json.body_user;
             var authorization = json.authorization;
             localStorage.removeItem('externalFile');
             return { url: url, body: body, authorization: authorization };

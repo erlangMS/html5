@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit, IEventListenr {
 
       if(this.captchaAprovado || this.contadorLogin < 5) {
 
-        this.authenticationService.getUrl(this.model.username,this.model.password,'/seguranca/url_security.json')
+        this.authenticationService.getUrlForDirectLogin(this.model.username,this.model.password,'/seguranca/url_security.json')
           .subscribe(resultado =>{
             this.authenticationService.login (resultado.url, resultado.body,resultado.authorization)
               .subscribe (result => {

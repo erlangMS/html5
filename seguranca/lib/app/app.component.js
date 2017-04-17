@@ -16,13 +16,11 @@ var AppComponent = (function () {
         this.authenticationService = authenticationService;
         this.loc = loc;
         this.timeSession = 3600;
+        this.client_id = 145;
+        this.error = '';
         this.location = loc;
     }
     AppComponent.prototype.ngOnInit = function () {
-        if (localStorage.getItem('currentUser')) {
-            var sessionTime = JSON.parse(localStorage.getItem('currentUser'));
-            this.authenticationService.periodicIncrement(this.timeSession);
-        }
         if (localStorage.getItem("dateAccessPage")) {
             var dateSecoundAccess = Date.now();
             this.localDateTime = Number(localStorage.getItem("dateAccessPage"));
@@ -35,6 +33,28 @@ var AppComponent = (function () {
             this.localDateTime = Date.now();
             localStorage.setItem("dateAccessPage", this.localDateTime.toString());
         }
+        if (localStorage.getItem('currentUser')) {
+            var sessionTime = JSON.parse(localStorage.getItem('currentUser'));
+            this.authenticationService.periodicIncrement(this.timeSession);
+        }
+        else {
+            this.authenticateClient();
+        }
+    };
+    AppComponent.prototype.authenticateClient = function () {
+        var _this = this;
+        this.authenticationService.getUrl(this.client_id, '/seguranca/url_security.json')
+            .subscribe(function (resultado) {
+            _this.authenticationService.authenticateClient(resultado.url, resultado.body, resultado.authorization)
+                .subscribe(function (result) {
+                if (result === true) {
+                    _this.error = '';
+                    window.location.href = "http://127.0.0.1:2301/authorize?response_type=code&client_id=" + _this.client_id + "&state=xyz%20&redirect_uri=https://github.com/erlangMS/ems-bus";
+                }
+            }, function (err) {
+                _this.error = 'Código de autenticação do cliente inválido.';
+            });
+        });
     };
     AppComponent = __decorate([
         core_1.Component({

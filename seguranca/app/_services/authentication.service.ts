@@ -26,7 +26,6 @@ export class AuthenticationService {
         if (token) {
           this.token = token;
           localStorage.setItem('currentUser', JSON.stringify(response.json()));
-          localStorage.setItem('authorization',JSON.stringify(authorization));
           this.periodicIncrement(3600);
           return true;
         } else {
@@ -35,7 +34,18 @@ export class AuthenticationService {
       });
   }
 
-  getUrl(login:string, senha: string,arquivo:string) {
+  authenticateClient(url:string,body:string, authorization:string): Observable<boolean> {
+    return this.http.post(url,body)
+      .map((response: Response) => {
+        localStorage.setItem('currentClient', JSON.stringify(response.json()));
+        localStorage.setItem('authorization',JSON.stringify(authorization));
+        return true;
+      });
+  }
+
+
+
+  getUrl(clientId:number,arquivo:string) {
     let arquivoExterno = localStorage.getItem('externalFile');
     if(arquivoExterno){
       arquivo = arquivoExterno;
@@ -43,8 +53,26 @@ export class AuthenticationService {
     return this.http.get(arquivo)
       .map((res) => {
         var json = res.json();
-        let url = json.url+''+json.param1+''+login+''+json.param2+''+senha;
-        let body = json.body;
+        let url = json.url_client+''+clientId+''+json.secret;
+        let body = json.body_client;
+        let authorization = json.authorization;
+        localStorage.removeItem('externalFile');
+        return {url:url,body:body,authorization:authorization};
+      });
+  }
+
+
+
+   getUrlForDirectLogin(login:string, senha: string,arquivo:string) {
+    let arquivoExterno = localStorage.getItem('externalFile');
+    if(arquivoExterno){
+      arquivo = arquivoExterno;
+    }
+    return this.http.get(arquivo)
+      .map((res) => {
+        var json = res.json();
+        let url = json.url_user+''+json.login+''+login+''+json.password+''+senha;
+        let body = json.body_user;
         let authorization = json.authorization;
         localStorage.removeItem('externalFile');
         return {url:url,body:body,authorization:authorization};

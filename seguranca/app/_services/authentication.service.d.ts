@@ -10,7 +10,13 @@ export declare class AuthenticationService {
     intervalId: any;
     constructor(http: Http, route: Router);
     login(url: string, body: string, authorization: string): Observable<boolean>;
-    getUrl(login: string, senha: string, arquivo: string): Observable<{
+    authenticateClient(url: string, body: string, authorization: string): Observable<boolean>;
+    getUrl(clientId: number, arquivo: string): Observable<{
+        url: string;
+        body: any;
+        authorization: any;
+    }>;
+    getUrlForDirectLogin(login: string, senha: string, arquivo: string): Observable<{
         url: string;
         body: any;
         authorization: any;
