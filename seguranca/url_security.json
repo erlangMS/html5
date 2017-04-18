@@ -2,6 +2,7 @@
   "url_client": "http://127.0.0.1:2301/authorize?grant_type=client_credentials&client_id=",
   "secret": "&secret=erlangms",
   "body_client":"",
+  "client_id": "145",
   "url_user": "http://127.0.0.1:2301/authorize?",
   "login": "grant_type=password&username=",
   "password": "&password=",

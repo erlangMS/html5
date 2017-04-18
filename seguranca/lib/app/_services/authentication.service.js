@@ -40,12 +40,13 @@ var AuthenticationService = (function () {
     AuthenticationService.prototype.authenticateClient = function (url, body, authorization) {
         return this.http.post(url, body)
             .map(function (response) {
+            var json = response.json();
             localStorage.setItem('currentClient', JSON.stringify(response.json()));
             localStorage.setItem('authorization', JSON.stringify(authorization));
-            return true;
+            return { url: json.url, body: json.body, authorization: json.authorization };
         });
     };
-    AuthenticationService.prototype.getUrl = function (clientId, arquivo) {
+    AuthenticationService.prototype.getUrl = function (arquivo) {
         var arquivoExterno = localStorage.getItem('externalFile');
         if (arquivoExterno) {
             arquivo = arquivoExterno;
@@ -53,6 +54,7 @@ var AuthenticationService = (function () {
         return this.http.get(arquivo)
             .map(function (res) {
             var json = res.json();
+            var clientId = json.client_id;
             var url = json.url_client + '' + clientId + '' + json.secret;
             var body = json.body_client;
             var authorization = json.authorization;

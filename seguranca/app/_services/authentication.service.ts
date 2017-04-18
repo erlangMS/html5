@@ -34,18 +34,19 @@ export class AuthenticationService {
       });
   }
 
-  authenticateClient(url:string,body:string, authorization:string): Observable<boolean> {
+  authenticateClient(url:string,body:string, authorization:string): Observable<any> {
     return this.http.post(url,body)
       .map((response: Response) => {
+        let json = response.json();
         localStorage.setItem('currentClient', JSON.stringify(response.json()));
         localStorage.setItem('authorization',JSON.stringify(authorization));
-        return true;
+        return {url:json.url,body:json.body,authorization:json.authorization};
       });
   }
 
 
 
-  getUrl(clientId:number,arquivo:string) {
+  getUrl(arquivo:string) {
     let arquivoExterno = localStorage.getItem('externalFile');
     if(arquivoExterno){
       arquivo = arquivoExterno;
@@ -53,6 +54,7 @@ export class AuthenticationService {
     return this.http.get(arquivo)
       .map((res) => {
         var json = res.json();
+        let clientId = json.client_id;
         let url = json.url_client+''+clientId+''+json.secret;
         let body = json.body_client;
         let authorization = json.authorization;
