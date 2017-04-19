@@ -34,17 +34,6 @@ export class AuthenticationService {
       });
   }
 
-  authenticateClient(url:string,body:string, authorization:string): Observable<any> {
-    return this.http.post(url,body)
-      .map((response: Response) => {
-        let json = response.json();
-        localStorage.setItem('currentClient', JSON.stringify(response.json()));
-        localStorage.setItem('authorization',JSON.stringify(authorization));
-        return {url:json.url,body:json.body,authorization:json.authorization};
-      });
-  }
-
-
 
   getUrl(arquivo:string) {
     let arquivoExterno = localStorage.getItem('externalFile');
@@ -55,15 +44,14 @@ export class AuthenticationService {
       .map((res) => {
         var json = res.json();
         let clientId = json.client_id;
-        let url = json.url_client+''+clientId+''+json.secret;
+        let url = json.url_client+''+clientId+''+json.redirect_param+json.url_redirect;
         let body = json.body_client;
         let authorization = json.authorization;
         localStorage.removeItem('externalFile');
         return {url:url,body:body,authorization:authorization};
       });
   }
-
-
+  
 
    getUrlForDirectLogin(login:string, senha: string,arquivo:string) {
     let arquivoExterno = localStorage.getItem('externalFile');

@@ -10,7 +10,6 @@ export declare class AuthenticationService {
     intervalId: any;
     constructor(http: Http, route: Router);
     login(url: string, body: string, authorization: string): Observable<boolean>;
-    authenticateClient(url: string, body: string, authorization: string): Observable<any>;
     getUrl(arquivo: string): Observable<{
         url: string;
         body: any;

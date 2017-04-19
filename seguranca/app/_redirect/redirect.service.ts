@@ -43,18 +43,8 @@ export class RedirectService {
   authenticateClient(){
     this.authenticationService.getUrl('/seguranca/url_security.json')
       .subscribe(resultado =>{
-        this.authenticationService.authenticateClient(resultado.url, resultado.body,resultado.authorization)
-          .subscribe (result => {
-              if (result) {
-                let json = result.json();
-                this.error = '';
-                window.location.href = json.url;
-              }
-            },
-            err => {
-              this.error = 'Código de autenticação do cliente inválido.';
-            }
-          );
+        localStorage.setItem('authorization',JSON.stringify(resultado.authorization));
+        window.location.href = resultado.url;
       });
   }
 

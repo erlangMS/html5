@@ -37,15 +37,6 @@ var AuthenticationService = (function () {
             }
         });
     };
-    AuthenticationService.prototype.authenticateClient = function (url, body, authorization) {
-        return this.http.post(url, body)
-            .map(function (response) {
-            var json = response.json();
-            localStorage.setItem('currentClient', JSON.stringify(response.json()));
-            localStorage.setItem('authorization', JSON.stringify(authorization));
-            return { url: json.url, body: json.body, authorization: json.authorization };
-        });
-    };
     AuthenticationService.prototype.getUrl = function (arquivo) {
         var arquivoExterno = localStorage.getItem('externalFile');
         if (arquivoExterno) {
@@ -55,7 +46,7 @@ var AuthenticationService = (function () {
             .map(function (res) {
             var json = res.json();
             var clientId = json.client_id;
-            var url = json.url_client + '' + clientId + '' + json.secret;
+            var url = json.url_client + '' + clientId + '' + json.redirect_param + json.url_redirect;
             var body = json.body_client;
             var authorization = json.authorization;
             localStorage.removeItem('externalFile');

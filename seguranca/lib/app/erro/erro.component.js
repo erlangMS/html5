@@ -17,9 +17,9 @@ var ErroComponent = (function () {
     ErroComponent = __decorate([
         core_1.Component({
             selector: 'app-erro',
-            templateUrl: 'app/erro/erro.component.html',
-            styleUrls: ['app/erro/erro.component.css']
-        }), 
+            templateUrl: './node_modules/seguranca/app/erro/erro.component.html',
+            styleUrls: ['./node_modules/seguranca/app/erro/erro.component.css']
+        }),
         __metadata('design:paramtypes', [])
     ], ErroComponent);
     return ErroComponent;

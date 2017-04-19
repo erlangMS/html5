@@ -1,6 +1,6 @@
 {
   "name": "seguranca",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "sistema fornend de segurança",
   "main": "seguranca.js",
   "typings": "seguranca.d.ts",
