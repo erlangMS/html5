@@ -19,17 +19,9 @@ var AuthGuard = (function () {
         this.authenticationService = authenticationService;
     }
     AuthGuard.prototype.canActivate = function () {
-        if (localStorage.getItem('currentUser')) {
-            var usuario = JSON.parse(localStorage.getItem('currentUser'));
-            var authorizationType = JSON.parse(localStorage.getItem("authorization"));
-            if (authorizationType != undefined && usuario != undefined) {
-                this.authenticationService.periodicIncrement(3600);
-                return true;
-            }
-            else {
-                this.router.navigate(['erro']);
-                return false;
-            }
+        if (this.authenticationService.currentUser.token != undefined) {
+            // this.authenticationService.periodicIncrement(3600);
+            return true;
         }
         else {
             this.router.navigate(['erro']);

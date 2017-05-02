@@ -6,16 +6,15 @@ import {DefaultHeaders} from "../_headers/default.headers";
 import {Questao} from "./questao";
 
 @Injectable()
-export class QuestaoService extends DefaultHeaders{
+export class QuestaoService {
 
   public questao: Questao;
 
   constructor(private http: Http, private route: Router) {
-    super();
   }
 
   insert(questao: Questao): Observable<Questao> {
-    return this.http.post('http://localhost:2301/unb_aula/pessoa/'+questao.idPessoa+'/questao', questao, {headers:this.headers})
+    return this.http.post('http://localhost:2301/unb_aula/pessoa/'+questao.idPessoa+'/questao', questao)
       .map((response: Response) => {
          console.log(response.json());
         return new Questao().fromJSON(response.json());
@@ -23,7 +22,7 @@ export class QuestaoService extends DefaultHeaders{
   }
 
   findByIdPessoa(idPessoa: number) {
-    return this.http.get('http://localhost:2301/unb_aula/pessoa/'+idPessoa+'/questao',{headers:this.headers})
+    return this.http.get('http://localhost:2301/unb_aula/pessoa/'+idPessoa+'/questao')
       .map((response: Response) => response.json())
   }
 

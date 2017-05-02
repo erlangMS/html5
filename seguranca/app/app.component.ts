@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
-import {AuthenticationService} from "./_services/authentication.service";
 import {RedirectService} from "./_redirect/redirect.service";
+import {AuthenticationService} from "./_services/authentication.service";
 
 @Component({
   selector: 'my-app',
@@ -9,12 +8,17 @@ import {RedirectService} from "./_redirect/redirect.service";
 })
 export class SecurityComponent implements OnInit {
 
-  constructor(private redirectService: RedirectService){
+  constructor(private redirectService: RedirectService, private authenticationService:AuthenticationService){
 
   }
 
   ngOnInit() {
-    this.redirectService.initVerificationRedirect();
+    var client_id = location.search.split('code=')[1];
+    if(client_id == undefined && this.authenticationService.currentUser.token == ''){
+      this.redirectService.initVerificationRedirect();
+    } else {
+      this.redirectService.redirectWithCodeUrl(client_id);
+    }
   }
 
 }

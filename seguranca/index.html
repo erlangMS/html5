@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base href="/seguranca/#">
+    <base href="/seguranca/">
     <title>Angular QuickStart</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,7 +21,15 @@
     <script src="systemjs.config.js"></script>
 
    <script>
-      System.import('app').catch(function(err){ console.error(err); });
+     var client_id = location.search.split('code=')[1];
+     console.log(client_id);
+     System.import('app')
+       .then(function() {
+         if(client_id != undefined){
+           history.pushState(client_id, "page 2", "/seguranca/?code="+client_id);
+         }
+       })
+       .catch(function(err){ console.error(err); });
     </script>
   </head>
 

@@ -13,10 +13,20 @@ export class AuthenticationService {
   public time: number = 0;
   intervalId: any = null;
 
+  static client_secret:string = "";
+
+  public currentUser:any = {
+    token: '',
+    login: '',
+    user: '',
+    authorization: '',
+    time: '',
+    password: ''
+  }
 
   constructor(private http: Http, private route: Router) {
-      var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      this.token = currentUser && currentUser.token;
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.token = currentUser && currentUser.token;
   }
 
   login(url:string, body:string,authorization:string): Observable<boolean> {
@@ -35,7 +45,20 @@ export class AuthenticationService {
   }
 
 
-  getUrl(arquivo:string) {
+  getUrlUser(arquivo:string):Observable<any> {
+    let arquivoExterno = localStorage.getItem('externalFile');
+    if(arquivoExterno){
+      arquivo = arquivoExterno;
+    }
+    return this.http.get(arquivo)
+      .map((res) => {
+        var json = res.json();
+        return {url:json.find_user_client,client_id:json.client_id,client_secret:json.client_secret,grant_type:json.grant_type,
+          url_redirect:json.url_redirect};
+      });
+  }
+
+  getUrl(arquivo:string):Observable<any> {
     let arquivoExterno = localStorage.getItem('externalFile');
     if(arquivoExterno){
       arquivo = arquivoExterno;
@@ -44,16 +67,40 @@ export class AuthenticationService {
       .map((res) => {
         var json = res.json();
         let clientId = json.client_id;
-        let url = json.url_client+''+clientId+''+json.redirect_param+json.url_redirect;
+        let url = json.url_client+''+json.param_client+''+clientId+''+json.redirect_param+json.url_redirect;
         let body = json.body_client;
+        AuthenticationService.client_secret = json.client_secret;
         let authorization = json.authorization;
-        localStorage.removeItem('externalFile');
-        return {url:url,body:body,authorization:authorization};
+        let store = json.store;
+        return {url:url,body:body,authorization:authorization,store:store};
       });
   }
-  
 
-   getUrlForDirectLogin(login:string, senha: string,arquivo:string) {
+
+  redirectUserTokenAccess(url:string, client_id:string, client_secret:string,code:string,grant_type:string,
+                          redirect_uri:string):Observable<boolean> {
+
+    var obj = {
+      client_id:client_id,
+      client_secret:client_secret,
+      code:code,
+      redirect_uri:redirect_uri,
+      grant_type:grant_type
+    }
+
+    return this.http.post(url+''+'?grant_type='+grant_type+'&client_id='+client_id+'&client_secret='+client_secret+'&code='+code+'&redirect_uri='+redirect_uri, JSON.stringify(obj))
+      .map((resposta) => {
+        var resp = resposta.json();
+        this.currentUser.token = resp.access_token;
+        localStorage.clear();
+        sessionStorage.clear();
+        this.periodicIncrement(3600);
+        return true;
+      });
+  }
+
+
+  getUrlForDirectLogin(login:string, senha: string,arquivo:string) {
     let arquivoExterno = localStorage.getItem('externalFile');
     if(arquivoExterno){
       arquivo = arquivoExterno;
@@ -97,7 +144,7 @@ export class AuthenticationService {
     return this.http.get('/arquitetura-basica/menu.json')
       .map((res) => {
         var sitemap = res.json();
-         sessionStorage.setItem('menu',JSON.stringify(sitemap));
+        sessionStorage.setItem('menu',JSON.stringify(sitemap));
         return sitemap;
       });
   }
@@ -108,6 +155,14 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem("dateAccessPage");
     localStorage.removeItem('authorization');
+    this.currentUser = {
+      token: '',
+      login: '',
+      user: '',
+      authorization: '',
+      time: '',
+      password: ''
+    }
     this.route.navigate(['']);
   }
 

@@ -19,15 +19,9 @@ var DefaultHeaders = (function (_super) {
     __extends(DefaultHeaders, _super);
     function DefaultHeaders() {
         _super.call(this);
-        var usuario = JSON.parse(localStorage.getItem('currentUser'));
-        var authorization = JSON.parse(localStorage.getItem("authorization"));
-        if (authorization == "Basic" && usuario) {
-            this.setHeaders("Authorization", "Basic " + btoa(usuario.username + ":" + usuario.password));
-        }
-        else if (authorization == "Oauth2" && usuario) {
-            this.setHeaders("Authorization", "Barer " + usuario.authorization);
-        }
     }
+    DefaultHeaders.prototype.ngOnInit = function () {
+    };
     DefaultHeaders.prototype.merge = function (options) {
         options.headers = DefaultHeaders.headers;
         var result = _super.prototype.merge.call(this, options);

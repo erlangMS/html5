@@ -18,6 +18,14 @@ var AuthenticationService = (function () {
         this.route = route;
         this.time = 0;
         this.intervalId = null;
+        this.currentUser = {
+            token: '',
+            login: '',
+            user: '',
+            authorization: '',
+            time: '',
+            password: ''
+        };
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
@@ -37,6 +45,18 @@ var AuthenticationService = (function () {
             }
         });
     };
+    AuthenticationService.prototype.getUrlUser = function (arquivo) {
+        var arquivoExterno = localStorage.getItem('externalFile');
+        if (arquivoExterno) {
+            arquivo = arquivoExterno;
+        }
+        return this.http.get(arquivo)
+            .map(function (res) {
+            var json = res.json();
+            return { url: json.find_user_client, client_id: json.client_id, client_secret: json.client_secret, grant_type: json.grant_type,
+                url_redirect: json.url_redirect };
+        });
+    };
     AuthenticationService.prototype.getUrl = function (arquivo) {
         var arquivoExterno = localStorage.getItem('externalFile');
         if (arquivoExterno) {
@@ -46,11 +66,31 @@ var AuthenticationService = (function () {
             .map(function (res) {
             var json = res.json();
             var clientId = json.client_id;
-            var url = json.url_client + '' + clientId + '' + json.redirect_param + json.url_redirect;
+            var url = json.url_client + '' + json.param_client + '' + clientId + '' + json.redirect_param + json.url_redirect;
             var body = json.body_client;
+            AuthenticationService.client_secret = json.client_secret;
             var authorization = json.authorization;
-            localStorage.removeItem('externalFile');
-            return { url: url, body: body, authorization: authorization };
+            var store = json.store;
+            return { url: url, body: body, authorization: authorization, store: store };
+        });
+    };
+    AuthenticationService.prototype.redirectUserTokenAccess = function (url, client_id, client_secret, code, grant_type, redirect_uri) {
+        var _this = this;
+        var obj = {
+            client_id: client_id,
+            client_secret: client_secret,
+            code: code,
+            redirect_uri: redirect_uri,
+            grant_type: grant_type
+        };
+        return this.http.post(url + '' + '?grant_type=' + grant_type + '&client_id=' + client_id + '&client_secret=' + client_secret + '&code=' + code + '&redirect_uri=' + redirect_uri, JSON.stringify(obj))
+            .map(function (resposta) {
+            var resp = resposta.json();
+            _this.currentUser.token = resp.access_token;
+            localStorage.clear();
+            sessionStorage.clear();
+            _this.periodicIncrement(3600);
+            return true;
         });
     };
     AuthenticationService.prototype.getUrlForDirectLogin = function (login, senha, arquivo) {
@@ -104,8 +144,17 @@ var AuthenticationService = (function () {
         localStorage.removeItem('currentUser');
         localStorage.removeItem("dateAccessPage");
         localStorage.removeItem('authorization');
+        this.currentUser = {
+            token: '',
+            login: '',
+            user: '',
+            authorization: '',
+            time: '',
+            password: ''
+        };
         this.route.navigate(['']);
     };
+    AuthenticationService.client_secret = "";
     AuthenticationService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, router_1.Router])

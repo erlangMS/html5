@@ -10,19 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var redirect_service_1 = require("./_redirect/redirect.service");
+var authentication_service_1 = require("./_services/authentication.service");
 var SecurityComponent = (function () {
-    function SecurityComponent(redirectService) {
+    function SecurityComponent(redirectService, authenticationService) {
         this.redirectService = redirectService;
+        this.authenticationService = authenticationService;
     }
     SecurityComponent.prototype.ngOnInit = function () {
-        this.redirectService.initVerificationRedirect();
+        var client_id = location.search.split('code=')[1];
+        if (client_id == undefined && this.authenticationService.currentUser.token == '') {
+            this.redirectService.initVerificationRedirect();
+        }
+        else {
+            this.redirectService.redirectWithCodeUrl(client_id);
+        }
     };
     SecurityComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html'
         }), 
-        __metadata('design:paramtypes', [redirect_service_1.RedirectService])
+        __metadata('design:paramtypes', [redirect_service_1.RedirectService, authentication_service_1.AuthenticationService])
     ], SecurityComponent);
     return SecurityComponent;
 }());

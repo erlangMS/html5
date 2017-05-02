@@ -1,23 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Headers, RequestOptions, RequestOptionsArgs  } from '@angular/http';
 
 @Injectable()
-export class DefaultHeaders extends RequestOptions {
+export class DefaultHeaders extends RequestOptions implements OnInit {
 
     static headers: Headers  = new Headers({ 'content-type': 'application/json; charset=utf-8'});
 
     constructor() {
       super();
-      let usuario = JSON.parse(localStorage.getItem('currentUser'));
-      let authorization = JSON.parse(localStorage.getItem("authorization"));
 
-      if(authorization =="Basic"  && usuario) {
-        this.setHeaders("Authorization", "Basic "+btoa(usuario.username + ":" + usuario.password));
-      }
-      else if(authorization == "Oauth2"  && usuario){
-        this.setHeaders("Authorization", "Barer "+usuario.authorization);
-      }
+    }
 
+    ngOnInit() {
+      
     }
 
     merge(options?: RequestOptionsArgs): RequestOptions {
