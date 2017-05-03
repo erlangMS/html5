@@ -19,12 +19,10 @@ var AuthGuard = (function () {
         this.authenticationService = authenticationService;
     }
     AuthGuard.prototype.canActivate = function () {
-        if (this.authenticationService.currentUser.token != undefined) {
-            // this.authenticationService.periodicIncrement(3600);
+        if (this.authenticationService.currentUser.token != "") {
             return true;
         }
         else {
-            this.router.navigate(['erro']);
             return false;
         }
     };

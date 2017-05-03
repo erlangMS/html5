@@ -20,8 +20,7 @@ var NavigationComponent = (function () {
         this.authenticationService.logout();
     };
     NavigationComponent.prototype.verificarUsuarioLogado = function () {
-        if (localStorage.getItem('currentUser')) {
-            this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.authenticationService.currentUser.token != "") {
             return true;
         }
         else {

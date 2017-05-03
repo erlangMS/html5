@@ -17,7 +17,7 @@ var SecurityComponent = (function () {
         this.authenticationService = authenticationService;
     }
     SecurityComponent.prototype.ngOnInit = function () {
-        var client_id = location.search.split('code=')[1];
+        var client_id = location.hash.split('code=')[1];
         if (client_id == undefined && this.authenticationService.currentUser.token == '') {
             this.redirectService.initVerificationRedirect();
         }

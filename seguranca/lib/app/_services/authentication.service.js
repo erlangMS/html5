@@ -152,7 +152,10 @@ var AuthenticationService = (function () {
             time: '',
             password: ''
         };
-        this.route.navigate(['']);
+        this.getUrl('/seguranca/url_security.json')
+            .subscribe(function (resultado) {
+            window.location.href = resultado.url;
+        });
     };
     AuthenticationService.client_secret = "";
     AuthenticationService = __decorate([

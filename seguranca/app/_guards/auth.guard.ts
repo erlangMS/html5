@@ -10,11 +10,9 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private http: Http, private authenticationService: AuthenticationService) { }
 
   canActivate() {
-    if (this.authenticationService.currentUser.token != undefined) {
-       // this.authenticationService.periodicIncrement(3600);
-        return true;
+    if (this.authenticationService.currentUser.token != "") {
+      return true;
     }else {
-      this.router.navigate(['erro']);
       return false;
     }
   }

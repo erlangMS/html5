@@ -21,8 +21,7 @@ export class NavigationComponent implements OnInit {
   }
 
   verificarUsuarioLogado(){
-    if (localStorage.getItem('currentUser')){
-      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+    if (this.authenticationService.currentUser.token != ""){
       return true;
     }else {
       return false;

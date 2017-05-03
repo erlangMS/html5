@@ -22,7 +22,7 @@ var RedirectService = (function () {
         this.location = loc;
     }
     RedirectService.prototype.initVerificationRedirect = function () {
-        if (sessionStorage.getItem("dateAccessPage")) {
+        if (sessionStorage.getItem("dateAccessPage") && this.authenticationService.currentUser.token != "") {
             var dateSecoundAccess = Date.now();
             this.localDateTime = Number(sessionStorage.getItem("dateAccessPage"));
             var value = dateSecoundAccess - this.localDateTime;
@@ -31,10 +31,10 @@ var RedirectService = (function () {
             }
         }
         else {
-            this.localDateTime = Date.now();
-            sessionStorage.setItem("dateAccessPage", this.localDateTime.toString());
             if (this.authenticationService.currentUser.token) {
                 this.authenticationService.periodicIncrement(3600);
+                this.localDateTime = Date.now();
+                sessionStorage.setItem("dateAccessPage", this.localDateTime.toString());
             }
             else {
                 this.authenticateClient();

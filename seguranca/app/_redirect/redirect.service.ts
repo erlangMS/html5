@@ -1,7 +1,7 @@
 import {Location} from '@angular/common';
 import { Injectable } from '@angular/core';
 import {AuthenticationService} from "../_services/authentication.service";
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class RedirectService {
@@ -9,7 +9,6 @@ export class RedirectService {
   public location: Location;
 
   public timeSession: number = 3600;
-
 
   public localDateTime: number;
 
@@ -20,7 +19,7 @@ export class RedirectService {
   }
 
   initVerificationRedirect() {
-    if(sessionStorage.getItem("dateAccessPage")){
+    if(sessionStorage.getItem("dateAccessPage") && this.authenticationService.currentUser.token != ""){
       let dateSecoundAccess = Date.now();
       this.localDateTime = Number(sessionStorage.getItem("dateAccessPage"));
       let value = dateSecoundAccess - this.localDateTime;
@@ -29,11 +28,10 @@ export class RedirectService {
       }
 
     }else{
-      this.localDateTime = Date.now();
-      sessionStorage.setItem("dateAccessPage",this.localDateTime.toString());
-
       if(this.authenticationService.currentUser.token) {
         this.authenticationService.periodicIncrement(3600);
+        this.localDateTime = Date.now();
+        sessionStorage.setItem("dateAccessPage",this.localDateTime.toString());
       }else {
         this.authenticateClient();
       }
@@ -41,8 +39,7 @@ export class RedirectService {
     }
 
   }
-
-
+  
   redirectWithCodeUrl(code:string) {
     this.authenticationService.getUrlUser('/seguranca/url_security.json')
       .subscribe(resultado =>{

@@ -163,7 +163,10 @@ export class AuthenticationService {
       time: '',
       password: ''
     }
-    this.route.navigate(['']);
+    this.getUrl('/seguranca/url_security.json')
+      .subscribe (resultado => {
+        window.location.href = resultado.url;
+      });
   }
 
 
