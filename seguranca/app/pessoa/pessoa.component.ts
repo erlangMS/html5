@@ -26,6 +26,10 @@ export class PessoaComponent implements OnInit {
   hidden:boolean = true;
 
 
+  findUser(){
+    this.pessoaService.findUser();
+  }
+
   onSubmit() {
     this.pessoaService.insert(this.model)
       .subscribe(result => {

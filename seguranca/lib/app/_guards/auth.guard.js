@@ -9,17 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
 var authentication_service_1 = require("../_services/authentication.service");
 var AuthGuard = (function () {
-    function AuthGuard(router, http, authenticationService) {
-        this.router = router;
-        this.http = http;
-        this.authenticationService = authenticationService;
+    function AuthGuard() {
     }
     AuthGuard.prototype.canActivate = function () {
-        if (this.authenticationService.currentUser.token != "") {
+        if (authentication_service_1.AuthenticationService.currentUser.token != "") {
             return true;
         }
         else {
@@ -28,7 +23,7 @@ var AuthGuard = (function () {
     };
     AuthGuard = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router, http_1.Http, authentication_service_1.AuthenticationService])
+        __metadata('design:paramtypes', [])
     ], AuthGuard);
     return AuthGuard;
 }());

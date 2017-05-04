@@ -19,7 +19,7 @@ export class RedirectService {
   }
 
   initVerificationRedirect() {
-    if(sessionStorage.getItem("dateAccessPage") && this.authenticationService.currentUser.token != ""){
+    if(sessionStorage.getItem("dateAccessPage") && AuthenticationService.currentUser.token != ""){
       let dateSecoundAccess = Date.now();
       this.localDateTime = Number(sessionStorage.getItem("dateAccessPage"));
       let value = dateSecoundAccess - this.localDateTime;
@@ -28,7 +28,7 @@ export class RedirectService {
       }
 
     }else{
-      if(this.authenticationService.currentUser.token) {
+      if(AuthenticationService.currentUser.token) {
         this.authenticationService.periodicIncrement(3600);
         this.localDateTime = Date.now();
         sessionStorage.setItem("dateAccessPage",this.localDateTime.toString());
@@ -39,10 +39,11 @@ export class RedirectService {
     }
 
   }
-  
+
   redirectWithCodeUrl(code:string) {
     this.authenticationService.getUrlUser('/seguranca/url_security.json')
       .subscribe(resultado =>{
+        AuthenticationService.port_server = resultado.port_server;
         var url = resultado.url;
         this.authenticationService.redirectUserTokenAccess(url, resultado.client_id, resultado.client_secret,code,
           resultado.grant_type, resultado.url_redirect)
@@ -53,7 +54,7 @@ export class RedirectService {
   }
 
   authenticateClient(){
-    if(this.authenticationService.currentUser.token == '') {
+    if(AuthenticationService.currentUser.token == '') {
       this.authenticationService.logout();
       this.authenticationService.getUrl('/seguranca/url_security.json')
         .subscribe (resultado => {
@@ -63,7 +64,7 @@ export class RedirectService {
       this.authenticationService.getUrl('/seguranca/url_security.json')
         .subscribe (resultado => {
           if(resultado.store == 'variable'){
-            this.authenticationService.currentUser.authorization = resultado.authorization;
+            AuthenticationService.currentUser.authorization = resultado.authorization;
             localStorage.removeItem('externalFile');
           }
         });

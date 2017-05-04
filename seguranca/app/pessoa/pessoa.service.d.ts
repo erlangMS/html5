@@ -13,4 +13,5 @@ export declare class PessoaService {
     redirecionarEditar(pessoa: Pessoa): void;
     update(pessoa: Pessoa): Observable<Pessoa>;
     delete(pessoa: Pessoa): Observable<any>;
+    findUser(): Observable<void>;
 }

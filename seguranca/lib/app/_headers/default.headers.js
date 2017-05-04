@@ -15,6 +15,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var authentication_service_1 = require("../_services/authentication.service");
 var DefaultHeaders = (function (_super) {
     __extends(DefaultHeaders, _super);
     function DefaultHeaders() {
@@ -24,6 +25,8 @@ var DefaultHeaders = (function (_super) {
     };
     DefaultHeaders.prototype.merge = function (options) {
         options.headers = DefaultHeaders.headers;
+        options.url = window.location.href + ':' + authentication_service_1.AuthenticationService.port_server + '?token=' + authentication_service_1.AuthenticationService.currentUser.token;
+        console.log(options.url);
         var result = _super.prototype.merge.call(this, options);
         result.merge = this.merge;
         return result;

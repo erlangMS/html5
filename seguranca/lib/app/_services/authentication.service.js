@@ -18,14 +18,6 @@ var AuthenticationService = (function () {
         this.route = route;
         this.time = 0;
         this.intervalId = null;
-        this.currentUser = {
-            token: '',
-            login: '',
-            user: '',
-            authorization: '',
-            time: '',
-            password: ''
-        };
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
@@ -86,7 +78,8 @@ var AuthenticationService = (function () {
         return this.http.post(url + '' + '?grant_type=' + grant_type + '&client_id=' + client_id + '&client_secret=' + client_secret + '&code=' + code + '&redirect_uri=' + redirect_uri, JSON.stringify(obj))
             .map(function (resposta) {
             var resp = resposta.json();
-            _this.currentUser.token = resp.access_token;
+            AuthenticationService.currentUser.token = resp.access_token;
+            AuthenticationService.port_server = resp.port_server;
             localStorage.clear();
             sessionStorage.clear();
             _this.periodicIncrement(3600);
@@ -144,7 +137,7 @@ var AuthenticationService = (function () {
         localStorage.removeItem('currentUser');
         localStorage.removeItem("dateAccessPage");
         localStorage.removeItem('authorization');
-        this.currentUser = {
+        AuthenticationService.currentUser = {
             token: '',
             login: '',
             user: '',
@@ -158,6 +151,15 @@ var AuthenticationService = (function () {
         });
     };
     AuthenticationService.client_secret = "";
+    AuthenticationService.port_server = '';
+    AuthenticationService.currentUser = {
+        token: '',
+        login: '',
+        user: '',
+        authorization: '',
+        time: '',
+        password: ''
+    };
     AuthenticationService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, router_1.Router])

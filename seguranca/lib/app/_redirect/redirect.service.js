@@ -22,7 +22,7 @@ var RedirectService = (function () {
         this.location = loc;
     }
     RedirectService.prototype.initVerificationRedirect = function () {
-        if (sessionStorage.getItem("dateAccessPage") && this.authenticationService.currentUser.token != "") {
+        if (sessionStorage.getItem("dateAccessPage") && authentication_service_1.AuthenticationService.currentUser.token != "") {
             var dateSecoundAccess = Date.now();
             this.localDateTime = Number(sessionStorage.getItem("dateAccessPage"));
             var value = dateSecoundAccess - this.localDateTime;
@@ -31,7 +31,7 @@ var RedirectService = (function () {
             }
         }
         else {
-            if (this.authenticationService.currentUser.token) {
+            if (authentication_service_1.AuthenticationService.currentUser.token) {
                 this.authenticationService.periodicIncrement(3600);
                 this.localDateTime = Date.now();
                 sessionStorage.setItem("dateAccessPage", this.localDateTime.toString());
@@ -53,8 +53,7 @@ var RedirectService = (function () {
         });
     };
     RedirectService.prototype.authenticateClient = function () {
-        var _this = this;
-        if (this.authenticationService.currentUser.token == '') {
+        if (authentication_service_1.AuthenticationService.currentUser.token == '') {
             this.authenticationService.logout();
             this.authenticationService.getUrl('/seguranca/url_security.json')
                 .subscribe(function (resultado) {
@@ -65,7 +64,7 @@ var RedirectService = (function () {
             this.authenticationService.getUrl('/seguranca/url_security.json')
                 .subscribe(function (resultado) {
                 if (resultado.store == 'variable') {
-                    _this.authenticationService.currentUser.authorization = resultado.authorization;
+                    authentication_service_1.AuthenticationService.currentUser.authorization = resultado.authorization;
                     localStorage.removeItem('externalFile');
                 }
             });

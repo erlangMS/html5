@@ -20,7 +20,7 @@ var NavigationComponent = (function () {
         this.authenticationService.logout();
     };
     NavigationComponent.prototype.verificarUsuarioLogado = function () {
-        if (this.authenticationService.currentUser.token != "") {
+        if (authentication_service_1.AuthenticationService.currentUser.token != "") {
             return true;
         }
         else {
@@ -30,9 +30,9 @@ var NavigationComponent = (function () {
     NavigationComponent = __decorate([
         core_1.Component({
             selector: 'app-navigation',
-            templateUrl: './node_modules/seguranca/app/navigation/navigation.component.html',
-            styleUrls: ['./node_modules/seguranca/app/navigation/navigation.component.css']
-        }),
+            templateUrl: 'app/navigation/navigation.component.html',
+            styleUrls: ['app/navigation/navigation.component.css']
+        }), 
         __metadata('design:paramtypes', [authentication_service_1.AuthenticationService])
     ], NavigationComponent);
     return NavigationComponent;

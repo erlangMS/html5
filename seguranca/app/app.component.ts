@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {RedirectService} from "./_redirect/redirect.service";
 import {AuthenticationService} from "./_services/authentication.service";
 
@@ -8,13 +8,13 @@ import {AuthenticationService} from "./_services/authentication.service";
 })
 export class SecurityComponent implements OnInit {
 
-  constructor(private redirectService: RedirectService, private authenticationService:AuthenticationService){
+  constructor(private redirectService: RedirectService){
 
   }
 
   ngOnInit() {
     var client_id = location.hash.split('code=')[1];
-    if(client_id == undefined && this.authenticationService.currentUser.token == ''){
+    if(client_id == undefined && AuthenticationService.currentUser.token == ''){
       this.redirectService.initVerificationRedirect();
     } else {
       this.redirectService.redirectWithCodeUrl(client_id);

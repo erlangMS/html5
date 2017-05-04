@@ -15,7 +15,10 @@ export class AuthenticationService {
 
   static client_secret:string = "";
 
-  public currentUser:any = {
+
+  public static port_server:string = '';
+
+   public static currentUser:any = {
     token: '',
     login: '',
     user: '',
@@ -54,7 +57,7 @@ export class AuthenticationService {
       .map((res) => {
         var json = res.json();
         return {url:json.find_user_client,client_id:json.client_id,client_secret:json.client_secret,grant_type:json.grant_type,
-          url_redirect:json.url_redirect};
+          url_redirect:json.url_redirect, port_server:json.port_server};
       });
   }
 
@@ -91,7 +94,7 @@ export class AuthenticationService {
     return this.http.post(url+''+'?grant_type='+grant_type+'&client_id='+client_id+'&client_secret='+client_secret+'&code='+code+'&redirect_uri='+redirect_uri, JSON.stringify(obj))
       .map((resposta) => {
         var resp = resposta.json();
-        this.currentUser.token = resp.access_token;
+        AuthenticationService.currentUser.token = resp.access_token;
         localStorage.clear();
         sessionStorage.clear();
         this.periodicIncrement(3600);
@@ -155,7 +158,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem("dateAccessPage");
     localStorage.removeItem('authorization');
-    this.currentUser = {
+    AuthenticationService.currentUser = {
       token: '',
       login: '',
       user: '',

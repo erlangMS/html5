@@ -9,7 +9,8 @@ export declare class AuthenticationService {
     time: number;
     intervalId: any;
     static client_secret: string;
-    currentUser: any;
+    static port_server: string;
+    static currentUser: any;
     constructor(http: Http, route: Router);
     login(url: string, body: string, authorization: string): Observable<boolean>;
     getUrlUser(arquivo: string): Observable<any>;

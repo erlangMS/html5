@@ -12,13 +12,12 @@ var core_1 = require('@angular/core');
 var redirect_service_1 = require("./_redirect/redirect.service");
 var authentication_service_1 = require("./_services/authentication.service");
 var SecurityComponent = (function () {
-    function SecurityComponent(redirectService, authenticationService) {
+    function SecurityComponent(redirectService) {
         this.redirectService = redirectService;
-        this.authenticationService = authenticationService;
     }
     SecurityComponent.prototype.ngOnInit = function () {
         var client_id = location.hash.split('code=')[1];
-        if (client_id == undefined && this.authenticationService.currentUser.token == '') {
+        if (client_id == undefined && authentication_service_1.AuthenticationService.currentUser.token == '') {
             this.redirectService.initVerificationRedirect();
         }
         else {
@@ -30,7 +29,7 @@ var SecurityComponent = (function () {
             selector: 'my-app',
             templateUrl: 'app/app.component.html'
         }), 
-        __metadata('design:paramtypes', [redirect_service_1.RedirectService, authentication_service_1.AuthenticationService])
+        __metadata('design:paramtypes', [redirect_service_1.RedirectService])
     ], SecurityComponent);
     return SecurityComponent;
 }());

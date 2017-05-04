@@ -14,7 +14,7 @@ export class PessoaService{
   }
 
   insert(pessoa: Pessoa): Observable<Pessoa> {
-    return this.http.post('http://localhost:2301/unb_aula/pessoa', pessoa, {})
+    return this.http.post('/unb_aula/pessoa', pessoa, {})
       .map((response: Response) => {
          console.log(response.json());
         return new Pessoa().fromJSON(response.json());
@@ -22,12 +22,12 @@ export class PessoaService{
   }
 
   findAluno() {
-    return this.http.get("http://localhost:2301//academico/aluno",[])
+    return this.http.get("/academico/aluno",[])
       .map((response:Response) => console.log("Resposta da consulta:  "+response))
   }
 
   find() {
-    return this.http.get('http://localhost:2301/unb_aula/pessoa',{})
+    return this.http.get('/unb_aula/pessoa',{})
       .map((response: Response) => response.json())
   }
 
@@ -37,7 +37,7 @@ export class PessoaService{
   }
 
   update(pessoa: Pessoa): Observable<Pessoa> {
-    return this.http.put('http://localhost:2301/unb_aula/pessoa/'+pessoa.id , pessoa,{})
+    return this.http.put('/unb_aula/pessoa/'+pessoa.id , pessoa,{})
       .map((response: Response) => {
         console.log(response.json());
         return new Pessoa().fromJSON(response.json());
@@ -45,9 +45,16 @@ export class PessoaService{
   }
 
   delete(pessoa: Pessoa) {
-    return this.http.delete('http://localhost:2301/unb_aula/pessoa/'+pessoa.id,{})
+    return this.http.delete('/unb_aula/pessoa/'+pessoa.id,{})
       .map((response: Response) => response.json())
 
+  }
+
+  findUser() {
+    return this.http.get('/recurso')
+      .map((response:Response) => {
+        console.log(response.json());
+      });
   }
 
 
