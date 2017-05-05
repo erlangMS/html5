@@ -21,7 +21,6 @@ export class AuthenticationService {
    public static currentUser:any = {
     token: '',
     login: '',
-    user: '',
     authorization: '',
     time: '',
     password: ''
@@ -95,9 +94,10 @@ export class AuthenticationService {
       .map((resposta) => {
         var resp = resposta.json();
         AuthenticationService.currentUser.token = resp.access_token;
-        localStorage.clear();
-        sessionStorage.clear();
+        localStorage.setItem('token',AuthenticationService.currentUser.token);
         this.periodicIncrement(3600);
+         let localDateTime = Date.now();
+        localStorage.setItem("dateAccessPage",localDateTime.toString());
         return true;
       });
   }
@@ -122,9 +122,14 @@ export class AuthenticationService {
 
   periodicIncrement(sessionTime:number): void {
     this.cancelPeriodicIncrement();
+    if(localStorage.getItem('dateAccessPage')){
+      let timeAccess = Date.now();
+      sessionTime = 3600000 - (timeAccess - Number(localStorage.getItem("dateAccessPage")));
+      sessionTime = sessionTime/1000;
+    }
     this.time = sessionTime * 1000;
     this.intervalId = setInterval(() => {
-      if(this.time == 0){
+      if(this.time == 0 || !localStorage.getItem('token')){
         this.logout();
         return 0;
       }
@@ -142,26 +147,15 @@ export class AuthenticationService {
     }
   };
 
-
-  getSitemap() {
-    return this.http.get('/arquitetura-basica/menu.json')
-      .map((res) => {
-        var sitemap = res.json();
-        sessionStorage.setItem('menu',JSON.stringify(sitemap));
-        return sitemap;
-      });
-  }
-
   logout(): void {
     this.cancelPeriodicIncrement();
     this.token = null;
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     localStorage.removeItem("dateAccessPage");
-    localStorage.removeItem('authorization');
+    localStorage.removeItem('user');
     AuthenticationService.currentUser = {
       token: '',
       login: '',
-      user: '',
       authorization: '',
       time: '',
       password: ''
@@ -169,6 +163,14 @@ export class AuthenticationService {
     this.getUrl('/seguranca/url_security.json')
       .subscribe (resultado => {
         window.location.href = resultado.url;
+      });
+  }
+
+  findUser() {
+    return this.http.post('/recurso','')
+      .map((response:Response) => {
+        let resp = response.json();
+        localStorage.setItem('user',resp.resource_owner);
       });
   }
 

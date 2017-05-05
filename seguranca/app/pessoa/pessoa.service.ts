@@ -51,7 +51,7 @@ export class PessoaService{
   }
 
   findUser() {
-    return this.http.get('/recurso')
+    return this.http.post('/recurso','')
       .map((response:Response) => {
         console.log(response.json());
       });

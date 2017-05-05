@@ -22,7 +22,6 @@ export class DefaultHeaders extends RequestOptions implements OnInit {
           let location  = window.location.href.split(':');
           options.url = location[0]+':'+location[1]+':' + AuthenticationService.port_server +''+options.url+'?token=' + AuthenticationService.currentUser.token;
         }
-        console.log(options.url);
       var result = super.merge(options);
         result.merge = this.merge;
         return result;

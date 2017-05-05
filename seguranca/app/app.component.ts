@@ -13,12 +13,8 @@ export class SecurityComponent implements OnInit {
   }
 
   ngOnInit() {
-    var client_id = location.hash.split('code=')[1];
-    if(client_id == undefined && AuthenticationService.currentUser.token == ''){
-      this.redirectService.initVerificationRedirect();
-    } else {
-      this.redirectService.redirectWithCodeUrl(client_id);
-    }
+    this.redirectService.startInitVerifySessionToken();
   }
+
 
 }

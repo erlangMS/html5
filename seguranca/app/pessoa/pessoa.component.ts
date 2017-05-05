@@ -27,7 +27,10 @@ export class PessoaComponent implements OnInit {
 
 
   findUser(){
-    this.pessoaService.findUser();
+    this.pessoaService.findUser()
+      .subscribe(result =>{
+        console.log('Funciona a chamada!');
+      });
   }
 
   onSubmit() {

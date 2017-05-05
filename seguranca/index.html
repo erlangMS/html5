@@ -22,11 +22,10 @@
 
    <script>
      var client_id = location.search.split('code=')[1];
-     console.log(client_id);
      System.import('app')
        .then(function() {
          if(client_id != undefined){
-           history.pushState(client_id, "page 2", "/seguranca/#/?code="+client_id);
+           history.pushState(client_id, "page 2", "/seguranca/?code="+client_id);
          }
        })
        .catch(function(err){ console.error(err); });

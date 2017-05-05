@@ -8,7 +8,10 @@ import {AuthenticationService} from "../_services/authentication.service";
 })
 export class NavigationComponent implements OnInit {
 
+  private name_user:string = '';
+
   constructor(private authenticationService: AuthenticationService) { }
+
 
   ngOnInit() {
 
@@ -19,7 +22,8 @@ export class NavigationComponent implements OnInit {
   }
 
   verificarUsuarioLogado(){
-    if (AuthenticationService.currentUser.token != ""){
+    if(AuthenticationService.currentUser.token != ""){
+      this.name_user = localStorage.getItem('user');
       return true;
     }else {
       return false;
