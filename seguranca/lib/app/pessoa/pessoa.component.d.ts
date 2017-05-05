@@ -9,6 +9,7 @@ export declare class PessoaComponent implements OnInit {
     ngOnInit(): void;
     model: Pessoa;
     hidden: boolean;
+    findUser(): void;
     onSubmit(): void;
     editar(): void;
     findAluno(): void;

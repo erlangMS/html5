@@ -46,7 +46,7 @@ var AuthenticationService = (function () {
             .map(function (res) {
             var json = res.json();
             return { url: json.find_user_client, client_id: json.client_id, client_secret: json.client_secret, grant_type: json.grant_type,
-                url_redirect: json.url_redirect };
+                url_redirect: json.url_redirect, port_server: json.port_server };
         });
     };
     AuthenticationService.prototype.getUrl = function (arquivo) {
@@ -79,10 +79,10 @@ var AuthenticationService = (function () {
             .map(function (resposta) {
             var resp = resposta.json();
             AuthenticationService.currentUser.token = resp.access_token;
-            AuthenticationService.port_server = resp.port_server;
-            localStorage.clear();
-            sessionStorage.clear();
+            localStorage.setItem('token', AuthenticationService.currentUser.token);
             _this.periodicIncrement(3600);
+            var localDateTime = Date.now();
+            localStorage.setItem("dateAccessPage", localDateTime.toString());
             return true;
         });
     };
@@ -97,16 +97,20 @@ var AuthenticationService = (function () {
             var url = json.url_user + '' + json.login + '' + login + '' + json.password + '' + senha;
             var body = json.body_user;
             var authorization = json.authorization;
-            localStorage.removeItem('externalFile');
             return { url: url, body: body, authorization: authorization };
         });
     };
     AuthenticationService.prototype.periodicIncrement = function (sessionTime) {
         var _this = this;
         this.cancelPeriodicIncrement();
+        if (localStorage.getItem('dateAccessPage')) {
+            var timeAccess = Date.now();
+            sessionTime = 3600000 - (timeAccess - Number(localStorage.getItem("dateAccessPage")));
+            sessionTime = sessionTime / 1000;
+        }
         this.time = sessionTime * 1000;
         this.intervalId = setInterval(function () {
-            if (_this.time == 0) {
+            if (_this.time == 0 || !localStorage.getItem('token')) {
                 _this.logout();
                 return 0;
             }
@@ -123,24 +127,15 @@ var AuthenticationService = (function () {
         }
     };
     ;
-    AuthenticationService.prototype.getSitemap = function () {
-        return this.http.get('/arquitetura-basica/menu.json')
-            .map(function (res) {
-            var sitemap = res.json();
-            sessionStorage.setItem('menu', JSON.stringify(sitemap));
-            return sitemap;
-        });
-    };
     AuthenticationService.prototype.logout = function () {
         this.cancelPeriodicIncrement();
         this.token = null;
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem('token');
         localStorage.removeItem("dateAccessPage");
-        localStorage.removeItem('authorization');
+        localStorage.removeItem('user');
         AuthenticationService.currentUser = {
             token: '',
             login: '',
-            user: '',
             authorization: '',
             time: '',
             password: ''
@@ -150,12 +145,18 @@ var AuthenticationService = (function () {
             window.location.href = resultado.url;
         });
     };
+    AuthenticationService.prototype.findUser = function () {
+        return this.http.post('/recurso', '')
+            .map(function (response) {
+            var resp = response.json();
+            localStorage.setItem('user', resp.resource_owner);
+        });
+    };
     AuthenticationService.client_secret = "";
     AuthenticationService.port_server = '';
     AuthenticationService.currentUser = {
         token: '',
         login: '',
-        user: '',
         authorization: '',
         time: '',
         password: ''

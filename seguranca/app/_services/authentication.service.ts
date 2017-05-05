@@ -114,7 +114,6 @@ export class AuthenticationService {
         let url = json.url_user+''+json.login+''+login+''+json.password+''+senha;
         let body = json.body_user;
         let authorization = json.authorization;
-        localStorage.removeItem('externalFile');
         return {url:url,body:body,authorization:authorization};
       });
   }

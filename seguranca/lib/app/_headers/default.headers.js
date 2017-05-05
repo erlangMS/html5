@@ -25,8 +25,10 @@ var DefaultHeaders = (function (_super) {
     };
     DefaultHeaders.prototype.merge = function (options) {
         options.headers = DefaultHeaders.headers;
-        options.url = window.location.href + ':' + authentication_service_1.AuthenticationService.port_server + '?token=' + authentication_service_1.AuthenticationService.currentUser.token;
-        console.log(options.url);
+        if (authentication_service_1.AuthenticationService.currentUser.token != "") {
+            var location_1 = window.location.href.split(':');
+            options.url = location_1[0] + ':' + location_1[1] + ':' + authentication_service_1.AuthenticationService.port_server + '' + options.url + '?token=' + authentication_service_1.AuthenticationService.currentUser.token;
+        }
         var result = _super.prototype.merge.call(this, options);
         result.merge = this.merge;
         return result;

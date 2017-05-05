@@ -23,6 +23,6 @@ export declare class AuthenticationService {
     }>;
     periodicIncrement(sessionTime: number): void;
     cancelPeriodicIncrement(): void;
-    getSitemap(): Observable<any>;
     logout(): void;
+    findUser(): Observable<void>;
 }

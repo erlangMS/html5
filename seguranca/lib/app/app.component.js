@@ -10,19 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var redirect_service_1 = require("./_redirect/redirect.service");
-var authentication_service_1 = require("./_services/authentication.service");
 var SecurityComponent = (function () {
     function SecurityComponent(redirectService) {
         this.redirectService = redirectService;
     }
     SecurityComponent.prototype.ngOnInit = function () {
-        var client_id = location.hash.split('code=')[1];
-        if (client_id == undefined && authentication_service_1.AuthenticationService.currentUser.token == '') {
-            this.redirectService.initVerificationRedirect();
-        }
-        else {
-            this.redirectService.redirectWithCodeUrl(client_id);
-        }
+        this.redirectService.startInitVerifySessionToken();
     };
     SecurityComponent = __decorate([
         core_1.Component({

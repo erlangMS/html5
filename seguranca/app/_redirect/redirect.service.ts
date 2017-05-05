@@ -92,7 +92,6 @@ export class RedirectService {
         .subscribe (resultado => {
           if(resultado.store == 'variable'){
             AuthenticationService.currentUser.authorization = resultado.authorization;
-            localStorage.removeItem('externalFile');
           }
         });
     }

@@ -11,30 +11,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var common_1 = require('@angular/common');
 var core_1 = require('@angular/core');
 var authentication_service_1 = require("../_services/authentication.service");
-var router_1 = require('@angular/router');
 var RedirectService = (function () {
-    function RedirectService(authenticationService, loc, activatedRoute) {
+    function RedirectService(authenticationService, loc) {
         this.authenticationService = authenticationService;
         this.loc = loc;
-        this.activatedRoute = activatedRoute;
         this.timeSession = 3600;
         this.error = '';
         this.location = loc;
     }
-    RedirectService.prototype.initVerificationRedirect = function () {
-        if (sessionStorage.getItem("dateAccessPage") && authentication_service_1.AuthenticationService.currentUser.token != "") {
-            var dateSecoundAccess = Date.now();
-            this.localDateTime = Number(sessionStorage.getItem("dateAccessPage"));
-            var value = dateSecoundAccess - this.localDateTime;
-            if (value >= (this.timeSession * 3600)) {
-                this.authenticationService.logout();
+    RedirectService.prototype.startInitVerifySessionToken = function () {
+        if (localStorage.getItem('token')) {
+            authentication_service_1.AuthenticationService.currentUser.token = localStorage.getItem('token');
+        }
+        if (localStorage.getItem("dateAccessPage") && authentication_service_1.AuthenticationService.currentUser.token != "") {
+            this.verifyTimeTokenExpired();
+        }
+        var client_id = location.search.split('code=')[1];
+        if (client_id == undefined) {
+            if (authentication_service_1.AuthenticationService.currentUser.token == '') {
+                this.initVerificationRedirect();
+            }
+            else {
+                this.authenticationService.periodicIncrement(3600);
             }
         }
+        else if (authentication_service_1.AuthenticationService.currentUser.token == '' && client_id != undefined) {
+            this.redirectWithCodeUrl(client_id);
+        }
+    };
+    RedirectService.prototype.verifyTimeTokenExpired = function () {
+        var dateSecoundAccess = Date.now();
+        this.localDateTime = Number(localStorage.getItem("dateAccessPage"));
+        var value = dateSecoundAccess - this.localDateTime;
+        if (value >= (this.timeSession * 1000)) {
+            this.authenticationService.logout();
+        }
+    };
+    RedirectService.prototype.initVerificationRedirect = function () {
+        if (localStorage.getItem("dateAccessPage") && authentication_service_1.AuthenticationService.currentUser.token != "") {
+            this.verifyTimeTokenExpired();
+        }
         else {
-            if (authentication_service_1.AuthenticationService.currentUser.token) {
-                this.authenticationService.periodicIncrement(3600);
-                this.localDateTime = Date.now();
-                sessionStorage.setItem("dateAccessPage", this.localDateTime.toString());
+            if (authentication_service_1.AuthenticationService.currentUser.token != '') {
+                this.authenticationService.periodicIncrement(this.timeSession);
             }
             else {
                 this.authenticateClient();
@@ -45,10 +64,14 @@ var RedirectService = (function () {
         var _this = this;
         this.authenticationService.getUrlUser('/seguranca/url_security.json')
             .subscribe(function (resultado) {
+            authentication_service_1.AuthenticationService.port_server = resultado.port_server;
             var url = resultado.url;
             _this.authenticationService.redirectUserTokenAccess(url, resultado.client_id, resultado.client_secret, code, resultado.grant_type, resultado.url_redirect)
                 .subscribe(function (resultado) {
-                console.log('Funcionou !!');
+                _this.authenticationService.findUser()
+                    .subscribe(function (result) {
+                    console.log('Funcionou!!!!!!!!!');
+                });
             });
         });
     };
@@ -65,14 +88,13 @@ var RedirectService = (function () {
                 .subscribe(function (resultado) {
                 if (resultado.store == 'variable') {
                     authentication_service_1.AuthenticationService.currentUser.authorization = resultado.authorization;
-                    localStorage.removeItem('externalFile');
                 }
             });
         }
     };
     RedirectService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, common_1.Location, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [authentication_service_1.AuthenticationService, common_1.Location])
     ], RedirectService);
     return RedirectService;
 }());

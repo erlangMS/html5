@@ -13,6 +13,7 @@ var authentication_service_1 = require("../_services/authentication.service");
 var NavigationComponent = (function () {
     function NavigationComponent(authenticationService) {
         this.authenticationService = authenticationService;
+        this.name_user = '';
     }
     NavigationComponent.prototype.ngOnInit = function () {
     };
@@ -21,6 +22,7 @@ var NavigationComponent = (function () {
     };
     NavigationComponent.prototype.verificarUsuarioLogado = function () {
         if (authentication_service_1.AuthenticationService.currentUser.token != "") {
+            this.name_user = localStorage.getItem('user');
             return true;
         }
         else {
@@ -30,9 +32,9 @@ var NavigationComponent = (function () {
     NavigationComponent = __decorate([
         core_1.Component({
             selector: 'app-navigation',
-            templateUrl: 'app/navigation/navigation.component.html',
-            styleUrls: ['app/navigation/navigation.component.css']
-        }), 
+            templateUrl: './node_modules/seguranca/app/navigation/navigation.component.html',
+            styleUrls: ['./node_modules/seguranca/app/navigation/navigation.component.css']
+        }),
         __metadata('design:paramtypes', [authentication_service_1.AuthenticationService])
     ], NavigationComponent);
     return NavigationComponent;

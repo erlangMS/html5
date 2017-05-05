@@ -28,6 +28,12 @@ var PessoaComponent = (function () {
         }
         this.pessoaService.pessoa = null;
     };
+    PessoaComponent.prototype.findUser = function () {
+        this.pessoaService.findUser()
+            .subscribe(function (result) {
+            console.log('Funciona a chamada!');
+        });
+    };
     PessoaComponent.prototype.onSubmit = function () {
         var _this = this;
         this.pessoaService.insert(this.model)

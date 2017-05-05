@@ -1,21 +1,13 @@
-<nav class="navbar navbar-inverse">
- <div>
+<div>
    <div>
-      <div class="container">
-          <div class="col-sm-8">
-            <div class="logo"></div>
-            <div class="sistema">
-            </div>
-          </div>
-          <div class="col-sm-2" *ngIf="verificarUsuarioLogado()">
-            <div class="login"> <h5> Seja vem vindo ! <br/>
-              <a (click)="logout()">Logout</a></h5> </div>
-          </div>
-          <div class="col-sm-2" *ngIf="verificarUsuarioLogado()">
-            <div class="login"><h5 class="login">Tempo de sessão </h5></div>
-            <p  style="text-align: center;">{{this.authenticationService.time | date:"mm:ss"}}</p>
-          </div>
-      </div>
+     <div class="col-sm-2" *ngIf="verificarUsuarioLogado()">
+       <div> <h5> Seja vem vindo {{ name_user }}! <br/>
+         <a (click)="logout()">Logout</a></h5> </div>
+     </div>
+     <div class="col-sm-2" *ngIf="verificarUsuarioLogado()">
+       <div><h5>Tempo de sessão </h5></div>
+         <p  style="text-align: center;">{{this.authenticationService.time | date:"mm:ss"}}</p>
+     </div>
    </div>
   </div>
-</nav>
+

@@ -18,18 +18,18 @@ var PessoaService = (function () {
         this.route = route;
     }
     PessoaService.prototype.insert = function (pessoa) {
-        return this.http.post('http://localhost:2301/unb_aula/pessoa', pessoa, {})
+        return this.http.post('/unb_aula/pessoa', pessoa, {})
             .map(function (response) {
             console.log(response.json());
             return new pessoa_1.Pessoa().fromJSON(response.json());
         });
     };
     PessoaService.prototype.findAluno = function () {
-        return this.http.get("http://localhost:2301//academico/aluno", [])
+        return this.http.get("/academico/aluno", [])
             .map(function (response) { return console.log("Resposta da consulta:  " + response); });
     };
     PessoaService.prototype.find = function () {
-        return this.http.get('http://localhost:2301/unb_aula/pessoa', {})
+        return this.http.get('/unb_aula/pessoa', {})
             .map(function (response) { return response.json(); });
     };
     PessoaService.prototype.redirecionarEditar = function (pessoa) {
@@ -37,15 +37,21 @@ var PessoaService = (function () {
         this.route.navigate(['/pessoa']);
     };
     PessoaService.prototype.update = function (pessoa) {
-        return this.http.put('http://localhost:2301/unb_aula/pessoa/' + pessoa.id, pessoa, {})
+        return this.http.put('/unb_aula/pessoa/' + pessoa.id, pessoa, {})
             .map(function (response) {
             console.log(response.json());
             return new pessoa_1.Pessoa().fromJSON(response.json());
         });
     };
     PessoaService.prototype.delete = function (pessoa) {
-        return this.http.delete('http://localhost:2301/unb_aula/pessoa/' + pessoa.id, {})
+        return this.http.delete('/unb_aula/pessoa/' + pessoa.id, {})
             .map(function (response) { return response.json(); });
+    };
+    PessoaService.prototype.findUser = function () {
+        return this.http.post('/recurso', '')
+            .map(function (response) {
+            console.log(response.json());
+        });
     };
     PessoaService = __decorate([
         core_1.Injectable(), 

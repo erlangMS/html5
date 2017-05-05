@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {RedirectService} from "./_redirect/redirect.service";
-import {AuthenticationService} from "./_services/authentication.service";
 
 @Component({
   selector: 'my-app',
