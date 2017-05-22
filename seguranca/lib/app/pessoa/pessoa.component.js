@@ -31,7 +31,6 @@ var PessoaComponent = (function () {
     PessoaComponent.prototype.findUser = function () {
         this.pessoaService.findUser()
             .subscribe(function (result) {
-            console.log('Funciona a chamada!');
         });
     };
     PessoaComponent.prototype.onSubmit = function () {
@@ -42,7 +41,6 @@ var PessoaComponent = (function () {
                 _this.route.navigate(['/pessoa/lista']);
             }
             else {
-                console.log('Erro ao cadastrar');
             }
         });
     };
@@ -56,7 +54,6 @@ var PessoaComponent = (function () {
     PessoaComponent.prototype.findAluno = function () {
         this.pessoaService.findAluno()
             .subscribe(function (result) {
-            return console.log(result);
         });
     };
     PessoaComponent.prototype.newHero = function () {

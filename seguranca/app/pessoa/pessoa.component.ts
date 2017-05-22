@@ -29,7 +29,6 @@ export class PessoaComponent implements OnInit {
   findUser(){
     this.pessoaService.findUser()
       .subscribe(result =>{
-        console.log('Funciona a chamada!');
       });
   }
 
@@ -39,7 +38,6 @@ export class PessoaComponent implements OnInit {
         if (result.nome !== '') {
           this.route.navigate(['/pessoa/lista']);
         } else {
-          console.log('Erro ao cadastrar');
         }
       });
 
@@ -54,9 +52,8 @@ export class PessoaComponent implements OnInit {
 
   findAluno() {
     this.pessoaService.findAluno()
-      .subscribe(result =>
-        console.log(result)
-      )
+      .subscribe(result =>{
+      });
   }
 
   newHero() {

@@ -16,9 +16,7 @@ var HomeComponent = (function () {
     };
     HomeComponent.prototype.getMenuSession = function () {
         var verify = sessionStorage.getItem('menu');
-        console.log(verify);
         var usuario = localStorage.getItem('currentUser');
-        console.log(usuario);
     };
     HomeComponent = __decorate([
         core_1.Component({

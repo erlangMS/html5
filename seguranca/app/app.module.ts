@@ -20,6 +20,7 @@ import {QuestaoModule} from "./questao/questao.module";
 import {routing} from "./app.routing";
 import {CookieService} from "./_cookie/cookie.service";
 import {RedirectService} from "./_redirect/redirect.service";
+import {NavbarModule} from "./shared/navbar/navbar.module";
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {RedirectService} from "./_redirect/redirect.service";
     PessoaModule,
     ErroModule,
     QuestaoModule,
+    NavbarModule,
     routing
   ],
   providers: [AuthGuard, AuthenticationService,UserService, CookieService, RedirectService,

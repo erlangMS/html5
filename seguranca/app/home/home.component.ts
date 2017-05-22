@@ -17,9 +17,7 @@ export class HomeComponent implements OnInit {
 
   getMenuSession(){
     let verify = sessionStorage.getItem('menu');
-    console.log(verify);
     let usuario = localStorage.getItem('currentUser');
-    console.log(usuario);
   }
 
 

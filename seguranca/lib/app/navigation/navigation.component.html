@@ -1,13 +1,14 @@
 <div>
-   <div>
-     <div class="col-sm-2" *ngIf="verificarUsuarioLogado()">
-       <div> <h5> Seja vem vindo {{ name_user }}! <br/>
-         <a (click)="logout()">Logout</a></h5> </div>
-     </div>
-     <div class="col-sm-2" *ngIf="verificarUsuarioLogado()">
-       <div><h5>Tempo de sessão </h5></div>
-         <p  style="text-align: center;">{{this.authenticationService.time | date:"mm:ss"}}</p>
-     </div>
-   </div>
+  <div>
+    <div class="col-sm-6 cor-branca" *ngIf="verificarUsuarioLogado()">
+      <div> <h5> Seja vem vindo {{ name_user }}! <br/>
+        <a (click)="logout()" class="cor-branca">Logout</a></h5> </div>
+    </div>
+    <div class="col-sm-6 cor-branca" *ngIf="verificarUsuarioLogado()">
+      <div class="cor-branca"><h5>Tempo de sessão </h5></div>
+      <p  style="text-align: center;" >{{this.authenticationService.time | date:"mm:ss"}}</p>
+    </div>
   </div>
+</div>
+
 

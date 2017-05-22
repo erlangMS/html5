@@ -9,12 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var authentication_service_1 = require("../_services/authentication.service");
 var AuthGuard = (function () {
     function AuthGuard() {
     }
     AuthGuard.prototype.canActivate = function () {
-        if (authentication_service_1.AuthenticationService.currentUser.token != "") {
+        if (localStorage.getItem('token') != "") {
             return true;
         }
         else {

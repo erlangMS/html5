@@ -28,6 +28,7 @@ var questao_module_1 = require("./questao/questao.module");
 var app_routing_1 = require("./app.routing");
 var cookie_service_1 = require("./_cookie/cookie.service");
 var redirect_service_1 = require("./_redirect/redirect.service");
+var navbar_module_1 = require("./shared/navbar/navbar.module");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -47,6 +48,7 @@ var AppModule = (function () {
                 pessoa_module_1.PessoaModule,
                 erro_module_1.ErroModule,
                 questao_module_1.QuestaoModule,
+                navbar_module_1.NavbarModule,
                 app_routing_1.routing
             ],
             providers: [auth_guard_1.AuthGuard, authentication_service_1.AuthenticationService, user_service_1.UserService, cookie_service_1.CookieService, redirect_service_1.RedirectService,

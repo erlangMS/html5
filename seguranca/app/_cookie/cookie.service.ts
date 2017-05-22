@@ -44,8 +44,7 @@ export class CookieService {
        ( ( path ) ? ";path=" + path : "" ) +
        ( ( domain ) ? ";domain=" + domain : "" ) +
        ( ( secure ) ? ";secure" : "" );
-
-     console.log("Cookie adicionado:-------------",document.cookie);
+       
   }
 
 }

@@ -15,7 +15,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var authentication_service_1 = require("../_services/authentication.service");
 var DefaultHeaders = (function (_super) {
     __extends(DefaultHeaders, _super);
     function DefaultHeaders() {
@@ -25,9 +24,26 @@ var DefaultHeaders = (function (_super) {
     };
     DefaultHeaders.prototype.merge = function (options) {
         options.headers = DefaultHeaders.headers;
-        if (authentication_service_1.AuthenticationService.currentUser.token != "") {
-            var location_1 = window.location.href.split(':');
-            options.url = location_1[0] + ':' + location_1[1] + ':' + authentication_service_1.AuthenticationService.port_server + '' + options.url + '?token=' + authentication_service_1.AuthenticationService.currentUser.token;
+        var loc = window.location.href.split(':');
+        var client_id = location.search.split('code=')[1];
+        var name_api = loc[2].split('/');
+        if (loc[0] == 'http') {
+            DefaultHeaders.port = '2301';
+        }
+        else {
+            DefaultHeaders.port = '2302';
+        }
+        if (localStorage.getItem('token')) {
+            var verifyParams = [''];
+            if (options.url != null) {
+                verifyParams = options.url.split('?');
+            }
+            if (verifyParams[1] == undefined) {
+                options.url = loc[0] + ':' + loc[1] + ':' + DefaultHeaders.port + '' + options.url + '?token=' + localStorage.getItem('token');
+            }
+            else {
+                options.url = loc[0] + ':' + loc[1] + ':' + DefaultHeaders.port + '' + options.url + '&token=' + localStorage.getItem('token');
+            }
         }
         var result = _super.prototype.merge.call(this, options);
         result.merge = this.merge;
@@ -37,6 +53,7 @@ var DefaultHeaders = (function (_super) {
         DefaultHeaders.headers.append(name, value);
     };
     DefaultHeaders.headers = new http_1.Headers({ 'content-type': 'application/json; charset=utf-8' });
+    DefaultHeaders.port = '';
     DefaultHeaders = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

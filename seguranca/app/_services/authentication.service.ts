@@ -3,6 +3,7 @@ import { Http , Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
 import 'rxjs/add/operator/map';
+import {DefaultHeaders} from "../_headers/default.headers";
 
 
 @Injectable()
@@ -56,7 +57,7 @@ export class AuthenticationService {
       .map((res) => {
         var json = res.json();
         return {url:json.find_user_client,client_id:json.client_id,client_secret:json.client_secret,grant_type:json.grant_type,
-          url_redirect:json.url_redirect, port_server:json.port_server};
+          url_redirect:json.url_redirect, port_client:json.port_client};
       });
   }
 
@@ -69,7 +70,8 @@ export class AuthenticationService {
       .map((res) => {
         var json = res.json();
         let clientId = json.client_id;
-        let url = json.url_client+''+json.param_client+''+clientId+''+json.redirect_param+json.url_redirect;
+        let location  = window.location.href.split(':');
+        let url = location[0]+':'+location[1]+':'+DefaultHeaders.port+''+json.url_client+''+json.param_client+''+clientId+''+json.redirect_param+json.url_redirect;
         let body = json.body_client;
         AuthenticationService.client_secret = json.client_secret;
         let authorization = json.authorization;
@@ -89,8 +91,8 @@ export class AuthenticationService {
       redirect_uri:redirect_uri,
       grant_type:grant_type
     }
-
-    return this.http.post(url+''+'?grant_type='+grant_type+'&client_id='+client_id+'&client_secret='+client_secret+'&code='+code+'&redirect_uri='+redirect_uri, JSON.stringify(obj))
+    let loc  = window.location.href.split(':');
+    return this.http.post(loc[0]+':'+loc[1]+':'+DefaultHeaders.port+''+url+'?grant_type='+grant_type+'&client_id='+client_id+'&client_secret='+client_secret+'&code='+code+'&redirect_uri='+redirect_uri, JSON.stringify(obj))
       .map((resposta) => {
         var resp = resposta.json();
         AuthenticationService.currentUser.token = resp.access_token;

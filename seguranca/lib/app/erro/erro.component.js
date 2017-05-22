@@ -19,7 +19,7 @@ var ErroComponent = (function () {
             selector: 'app-erro',
             templateUrl: './node_modules/seguranca/app/erro/erro.component.html',
             styleUrls: ['./node_modules/seguranca/app/erro/erro.component.css']
-        }),
+        }), 
         __metadata('design:paramtypes', [])
     ], ErroComponent);
     return ErroComponent;

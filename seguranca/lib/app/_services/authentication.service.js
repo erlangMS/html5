@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var router_1 = require("@angular/router");
 require('rxjs/add/operator/map');
+var default_headers_1 = require("../_headers/default.headers");
 var AuthenticationService = (function () {
     function AuthenticationService(http, route) {
         this.http = http;
@@ -46,7 +47,7 @@ var AuthenticationService = (function () {
             .map(function (res) {
             var json = res.json();
             return { url: json.find_user_client, client_id: json.client_id, client_secret: json.client_secret, grant_type: json.grant_type,
-                url_redirect: json.url_redirect, port_server: json.port_server };
+                url_redirect: json.url_redirect, port_client: json.port_client };
         });
     };
     AuthenticationService.prototype.getUrl = function (arquivo) {
@@ -58,7 +59,8 @@ var AuthenticationService = (function () {
             .map(function (res) {
             var json = res.json();
             var clientId = json.client_id;
-            var url = json.url_client + '' + json.param_client + '' + clientId + '' + json.redirect_param + json.url_redirect;
+            var location = window.location.href.split(':');
+            var url = location[0] + ':' + location[1] + ':' + default_headers_1.DefaultHeaders.port + '' + json.url_client + '' + json.param_client + '' + clientId + '' + json.redirect_param + json.url_redirect;
             var body = json.body_client;
             AuthenticationService.client_secret = json.client_secret;
             var authorization = json.authorization;
@@ -75,7 +77,8 @@ var AuthenticationService = (function () {
             redirect_uri: redirect_uri,
             grant_type: grant_type
         };
-        return this.http.post(url + '' + '?grant_type=' + grant_type + '&client_id=' + client_id + '&client_secret=' + client_secret + '&code=' + code + '&redirect_uri=' + redirect_uri, JSON.stringify(obj))
+        var loc = window.location.href.split(':');
+        return this.http.post(loc[0] + ':' + loc[1] + ':' + default_headers_1.DefaultHeaders.port + '' + url + '?grant_type=' + grant_type + '&client_id=' + client_id + '&client_secret=' + client_secret + '&code=' + code + '&redirect_uri=' + redirect_uri, JSON.stringify(obj))
             .map(function (resposta) {
             var resp = resposta.json();
             AuthenticationService.currentUser.token = resp.access_token;

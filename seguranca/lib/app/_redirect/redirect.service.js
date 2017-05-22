@@ -39,6 +39,8 @@ var RedirectService = (function () {
             this.redirectWithCodeUrl(client_id);
         }
     };
+    RedirectService.prototype.ngOnDestroy = function () {
+    };
     RedirectService.prototype.verifyTimeTokenExpired = function () {
         var dateSecoundAccess = Date.now();
         this.localDateTime = Number(localStorage.getItem("dateAccessPage"));
@@ -64,13 +66,11 @@ var RedirectService = (function () {
         var _this = this;
         this.authenticationService.getUrlUser('/seguranca/url_security.json')
             .subscribe(function (resultado) {
-            authentication_service_1.AuthenticationService.port_server = resultado.port_server;
             var url = resultado.url;
             _this.authenticationService.redirectUserTokenAccess(url, resultado.client_id, resultado.client_secret, code, resultado.grant_type, resultado.url_redirect)
                 .subscribe(function (resultado) {
                 _this.authenticationService.findUser()
                     .subscribe(function (result) {
-                    console.log('Funcionou!!!!!!!!!');
                 });
             });
         });
@@ -80,6 +80,7 @@ var RedirectService = (function () {
             this.authenticationService.logout();
             this.authenticationService.getUrl('/seguranca/url_security.json')
                 .subscribe(function (resultado) {
+                var url_parts = resultado.url;
                 window.location.href = resultado.url;
             });
         }

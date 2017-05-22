@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
   constructor() { }
 
   canActivate() {
-    if(AuthenticationService.currentUser.token != "") {
+    if(localStorage.getItem('token') != "") {
       return true;
     }else {
       return false;

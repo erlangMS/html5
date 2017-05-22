@@ -1,9 +1,9 @@
 import {Location} from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {AuthenticationService} from "../_services/authentication.service";
 
 @Injectable()
-export class RedirectService {
+export class RedirectService implements OnDestroy {
 
   public location: Location;
 
@@ -24,7 +24,7 @@ export class RedirectService {
     }
 
     if(localStorage.getItem("dateAccessPage") && AuthenticationService.currentUser.token != "") {
-      this.verifyTimeTokenExpired ();
+      this.verifyTimeTokenExpired();
     }
 
     var client_id = location.search.split('code=')[1];
@@ -40,6 +40,10 @@ export class RedirectService {
 
   }
 
+
+  ngOnDestroy() {
+
+  }
 
   private verifyTimeTokenExpired() {
       let dateSecoundAccess = Date.now();
@@ -67,14 +71,12 @@ export class RedirectService {
   private redirectWithCodeUrl(code:string) {
     this.authenticationService.getUrlUser('/seguranca/url_security.json')
       .subscribe(resultado =>{
-        AuthenticationService.port_server = resultado.port_server;
         var url = resultado.url;
         this.authenticationService.redirectUserTokenAccess(url, resultado.client_id, resultado.client_secret,code,
           resultado.grant_type, resultado.url_redirect)
           .subscribe(resultado => {
             this.authenticationService.findUser()
               .subscribe(result => {
-                console.log('Funcionou!!!!!!!!!');
             });
           })
       });
@@ -85,6 +87,7 @@ export class RedirectService {
       this.authenticationService.logout();
       this.authenticationService.getUrl('/seguranca/url_security.json')
         .subscribe (resultado => {
+          let url_parts = resultado.url;
           window.location.href = resultado.url;
         });
     } else {

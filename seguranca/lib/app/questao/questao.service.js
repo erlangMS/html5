@@ -20,7 +20,6 @@ var QuestaoService = (function () {
     QuestaoService.prototype.insert = function (questao) {
         return this.http.post('http://localhost:2301/unb_aula/pessoa/' + questao.idPessoa + '/questao', questao)
             .map(function (response) {
-            console.log(response.json());
             return new questao_1.Questao().fromJSON(response.json());
         });
     };

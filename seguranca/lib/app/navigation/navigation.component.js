@@ -34,7 +34,7 @@ var NavigationComponent = (function () {
             selector: 'app-navigation',
             templateUrl: './node_modules/seguranca/app/navigation/navigation.component.html',
             styleUrls: ['./node_modules/seguranca/app/navigation/navigation.component.css']
-        }),
+        }), 
         __metadata('design:paramtypes', [authentication_service_1.AuthenticationService])
     ], NavigationComponent);
     return NavigationComponent;

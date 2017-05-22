@@ -43,7 +43,6 @@ var CookieService = (function () {
             ((path) ? ";path=" + path : "") +
             ((domain) ? ";domain=" + domain : "") +
             ((secure) ? ";secure" : "");
-        console.log("Cookie adicionado:-------------", document.cookie);
     };
     CookieService = __decorate([
         core_1.Injectable(), 

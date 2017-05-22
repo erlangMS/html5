@@ -16,7 +16,6 @@ export class QuestaoService {
   insert(questao: Questao): Observable<Questao> {
     return this.http.post('http://localhost:2301/unb_aula/pessoa/'+questao.idPessoa+'/questao', questao)
       .map((response: Response) => {
-         console.log(response.json());
         return new Questao().fromJSON(response.json());
       });
   }

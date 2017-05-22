@@ -18,3 +18,5 @@ export { NavigationComponent } from './app/navigation/navigation.component';
 export { RodapeComponent } from "./app/rodape/rodape.component";
 export { ErroComponent } from './app/erro/erro.component';
 export { RedirectService } from './app/_redirect/redirect.service';
+export { NavbarComponent } from './app/shared/navbar/navbar.component';
+export { NavbarService } from './app/shared/navbar/navbar.service';
